@@ -1,0 +1,10 @@
+baseURL = "https://nicolashatcher.com"
+languageCode = "en-us"
+title = "A blog, by Nicolás Hatcher"
+theme = "anatole"
+
+[params]
+title = "I'm Nicolás Hatcher"
+author = "Nicolás Hatcher"
+description = "Software developer by trade, physicist by soul"
+profilePicture = "images/profile.jpg"
