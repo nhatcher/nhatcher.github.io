@@ -1,10 +1,68 @@
 baseURL = "https://nicolashatcher.com"
 languageCode = "en-us"
+DefaultContentLanguage = "en-us"
 title = "A blog, by Nicolás Hatcher"
 theme = "anatole"
+summarylength = 10
+enableEmoji = true
+enableRobotsTXT = true
+
 
 [params]
 title = "I'm Nicolás Hatcher"
 author = "Nicolás Hatcher"
 description = "Software developer by trade, physicist by soul"
 profilePicture = "images/profile.jpg"
+
+keywords = ""
+favicon = "favicons/"
+# example ["css/custom.css"]
+customCss = []
+# example ["js/custom.js"]
+customJs = []
+mainSections = ["post"]
+images = ["images/site-feature-image.png"]
+doNotLoadAnimations = true
+
+## Social links
+# use 'fab' when brand icons, use 'fas' when standard solid icons.
+[[params.socialIcons]]
+icon = "fas fa-file-alt"
+title = "Publications"
+url = "https://arxiv.org/search/?searchtype=author&query=Hatcher%2C+N"
+
+[[params.socialIcons]]
+icon = "fab fa-github"
+title = "GitHub"
+url = "https://github.com/nhatcher/"
+
+[[params.socialIcons]]
+icon = "fab fa-instagram"
+title = "instagram"
+url = "https://www.instagram.com/theuniverse.today"
+
+[[params.socialIcons]]
+icon = "fas fa-envelope"
+title = "e-mail"
+url = "mailto:nicolas@theuniverse.today"
+
+
+[menu]
+
+  [[menu.main]]
+  name = "Home"
+  identifier = "home"
+  weight = 100
+  url = "/"
+
+  [[menu.main]]
+  name = "Posts"
+  weight = 200
+  identifier = "posts"
+  url = "/post/"
+
+  [[menu.main]]
+  name = "About"
+  weight = 300
+  identifier = "about"
+  url = "/about/"

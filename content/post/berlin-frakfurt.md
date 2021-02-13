@@ -1,9 +1,20 @@
----
-title: Berlin-Frankfurt by bike
-date: 2011-07-03T02:57:00-07:00
----
++++
+author = "Nicolás Hatcher"
+title = "Berlin-Frankfurt-Berlin by bike"
+date = "2011-07-03T02:57:00-07:00"
+description = "My frist bike trip to Frankfurt am Oder."
+tags = [
+    "personal",
+    "memories",
+]
+categories = [
+    "bike",
+    "syntax",
+]
+series = ["Travel"]
++++
 
-(originally published in: <http://physicsandlove.blogspot.com/2011/07/berlin-frankfurt-berlin-by-bike.html>)
+(originally published in [blogspot](http://physicsandlove.blogspot.com/2011/07/berlin-frankfurt-berlin-by-bike.html))
 
 At last, after more than two years, I make my first post.
 I do hope this becomes some kind of a habit, because I like writing, but that is an activity I have completely forgotten (even more than biking). I will be publishing mainly in Español and English but... there might be some entry in German.

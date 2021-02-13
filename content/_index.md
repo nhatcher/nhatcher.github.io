@@ -1,5 +1,3 @@
----
-title: A blog of my own
----
-
-Hola!
++++
+author = "Nicolás Hatcher"
++++
