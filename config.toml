@@ -12,6 +12,10 @@ pygmentsUseClasses = true
 pygmentsCodeFences = true
 pygmentsCodefencesGuessSyntax = true
 
+[minify]
+    # ATM the HTML minifier breaks certain things
+    disableHTML = true
+
 [params]
 title = "I'm Nicolás Hatcher"
 author = "Nicolás Hatcher"
