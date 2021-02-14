@@ -14,7 +14,9 @@ pygmentsCodefencesGuessSyntax = true
 
 [minify]
     # ATM the HTML minifier breaks certain things
-    disableHTML = true
+    [minify.tdewolff]
+        [minify.tdewolff.html]
+            keepWhitespace = true
 
 [params]
 title = "I'm Nicolás Hatcher"
