@@ -31,7 +31,7 @@ customCss = []
 # example ["js/custom.js"]
 customJs = []
 mainSections = ["post"]
-images = ["images/site-feature-image.png"]
+images = []
 doNotLoadAnimations = true
 
 ## Social links
