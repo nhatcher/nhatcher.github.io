@@ -37,8 +37,12 @@ I have used them all! My favorite living mathematician, Terrence Tao, has a blog
 
 So, if you want to do it the free way, with not bloated software, owning your content, learning tools with transferable knowledge and are comfortable in the command line continue reading!
 
-NOTE: even if you answer yes to all those questions, Hugo is not the only player in town. There are lots of others. Maybe the most famous one is [Jekyll](https://jekyllrb.com/).
+Even if you answer yes to all those questions, Hugo is not the only player in town. There are lots of others. Maybe the most famous one is [Jekyll](https://jekyllrb.com/).
 It is not worse or better than Hugo, it's just another one.
+
+You do not need to use Github, you can as well in a very similar fashion use [Gitlab](https://about.gitlab.com/). A yet different place would be [Netlify](https://www.netlify.com/).
+
+To finalize, we will be using _automated deployments_ that, in our case, came with the name of _GitHub actions_. This means that we will setup things in a way that you can make a change in your blog and the blog will update automatically. But you don't need to do that. You can just as well build the site on your machine and then push the built bundle.
 
 Requirements
 ------------
@@ -57,7 +61,7 @@ An introduction to Hugo, the static site generator
 
 So what is Hugo?. It's _a static site generator_. You give it some content in the form of markdown (mostly, but you will be able to upload images, JavaScript, CSS,...), make some choices and it produces a bunch of HTML, CSS and JavaScript. If you are into programing, this is the _compilation stage_.
 
-Hugo, follwoing the go programming language spirit, is a single binary. In less than 50Mb of a single file we have all the power we need. You can't double click on it. It's a CLI (command line interface) tool. But it has hundreds of options.
+Hugo, following the go programming language spirit, is a single binary. In less than 50Mb of a single file we have all the power we need. You can't double click on it. It's a CLI (command line interface) tool. But it has hundreds of options.
 
 Let me walk you through it.
 
