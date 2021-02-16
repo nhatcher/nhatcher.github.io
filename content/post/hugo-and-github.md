@@ -8,14 +8,20 @@ DisableComments: false
 Draft: true
 ---
 
+        Forgive me pretty baby but I always take the long way home.
+        Tome Waits
+
 Do you want to create a webpage with some static content like a blog or some info page?
 Are you familiar with git, github, markdown and a code editor?
 You ok with paying 10 bucks a year for a domain name?
 
 If you answered yes to those questions then you are in the right place.
 
-Some caveats
-------------
+You can go ahead and skip the caveats section where I present you with a rainbow of other possibilities.
+As Steven Weinberg usually says, "Sections marked with an asterisk are somewhat out of the book's main line of development and may be omitted in a first reading"
+
+Some caveats (*)
+----------------
 
 There are a million ways to create content for the Internet these days. Many of of them far easier than the one I am about to describe.
 But they all come with different trade offs.
@@ -54,7 +60,9 @@ You will need a couple of things, but with a bit of luck you already have all of
 * Make sure you have `git` installed and that you can push and pull from Github.
 * Next thing you need to do is install [Hugo](https://gohugo.io/).
 * Also, please make sure you have a code editor. If you don't have a preference install [Visual Studio Code](https://code.visualstudio.com/) from Microsoft, but any other will do.
-* Finally, ans this is the most important part, think about some content. Something to get you started. It can be just a description about yourself and a brief post you want to make. You can just email you that content or write it in a word document, it doesn't matter.
+* Finally, and this is the most important part, think about some content. Something to get you started. It can be just a description about yourself and a brief post you want to make. You can just email you that content or write it in a word document, it doesn't matter.
+
+You can now jump to an introduction to Hugo or go and learn about GitHub and GitHub actions.
 
 An introduction to Hugo, the static site generator
 --------------------------------------------------
@@ -78,8 +86,16 @@ Then you will have to hop into that folder:
 `cd mysite`
 
 If you do an `ls` (or `dir` if you are on Windows), you will see the whole directory structure. There are a few folders, but they are mostly empty.
-Only one file in the root folder that we care about `config.tolm`
+Only one file in the root folder that we care about `config.toml`
 
+
+Awesome GitHub
+--------------
+
+I'm going to share a secret with you, GitHub is freaking awesome. And what they do for people is awesome.
+In this section we are going to learn how to host a webpage in GitHub. This is totally unrelated to Hugo.
+
+You can use GitHub to host the source code of a project of yours. For instance I have a project [here](https://github.com/nhatcher/ariana-lua) that allows you to plot functions using the [Lua](http://www.lua.org/) programming language! Irrelevant for now. But, but, but, I use GitHub to host the end product in a [_GitHub page_]()
 
 
 Add a theme
@@ -90,8 +106,12 @@ CNAME
 -----
 
 
-Favicon
--------
+Favicon (*)
+-----------
+
+Your website probably needs a [favicon](https://en.wikipedia.org/wiki/Favicon). The easiest way is to go to one of the many [favicon generators](https://favicon.io/favicon-generator/).
+If you don't know what to do just get your initials, some colors and good to go! If it works for [Bill Gates](https://www.gatesnotes.com/) works for you.
+
 
 
 
