@@ -50,8 +50,8 @@ You do not need to use Github, you can as well in a very similar fashion use [Gi
 
 To finalize, we will be using _automated deployments_ that, in our case, came with the name of _GitHub actions_. This means that we will setup things in a way that you can make a change in your blog and the blog will update automatically. But you don't need to do that. You can just as well build the site on your machine and then push the built bundle.
 
-Requirements
-------------
+Setting everything up
+---------------------
 
 You will need a couple of things, but with a bit of luck you already have all of those iun hand
 
@@ -89,21 +89,61 @@ If you do an `ls` (or `dir` if you are on Windows), you will see the whole direc
 Only one file in the root folder that we care about `config.toml`
 
 
+## Add a theme
+
+
+
 Awesome GitHub
 --------------
+
+In this section we are going to crete a webpage served by GitHub.
 
 I'm going to share a secret with you, GitHub is freaking awesome. And what they do for people is awesome.
 In this section we are going to learn how to host a webpage in GitHub. This is totally unrelated to Hugo.
 
-You can use GitHub to host the source code of a project of yours. For instance I have a project [here](https://github.com/nhatcher/ariana-lua) that allows you to plot functions using the [Lua](http://www.lua.org/) programming language! Irrelevant for now. But, but, but, I use GitHub to host the end product in a [_GitHub page_]()
+There are two slightly different ways to host a webpage in GitHub.
 
+* You can host a page for a project of yours in `https://<username>.github.io/<project-name>`
+* You can host a page for the whole thing at `https://<username>.github.io/`
 
-Add a theme
------------
+The process is exactly the same, so I will just show you how to do the second way.
 
+First thing you need to do is to create a new repository with this very special name: `<username>.github.io`. For example, here is mine:
 
-CNAME
------
+[Nicolás 'root' repo](https://github.com/nhatcher/nhatcher.github.io)
+
+This is your first exercise, ready? Create the repo and add an `index.html` file. If you don't know what to write just copy/paste this:
+
+```html
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First GitHub hosted page</title>
+    <h1>Brilliant!</h1>
+    <div>I feel this blog is going <span style="color: red">places</span>!</div>
+</head>
+<body>
+    
+</body>
+</html>
+```
+
+This is just code
+
+You can use GitHub to host the source code of a project of yours. For instance I have a project [here](https://github.com/nhatcher/ariana-lua) that allows you to plot functions using the [Lua](http://www.lua.org/) programming language!
+
+GitHub Actions (*)
+------------------
+
+In this sections we will create the content in Markdown and use GitHub actions to generate the HTML for us.
+
+Custom domain
+-------------
+
+In this section we will lear how to use our custom domain `https://www.example.com` instead of the GitHub URL.
+Visitors of your blog will not be aware that all the content is in GitHub!
 
 
 Favicon (*)
