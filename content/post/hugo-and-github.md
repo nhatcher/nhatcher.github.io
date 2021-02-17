@@ -130,7 +130,7 @@ This is your first exercise, ready? Create the repo and add an `index.html` file
 </html>
 ```
 
-This is just code
+This is just code. It's not a webpage just yet. Tu turn it into a webpage, click settings in your project and scroll down to the very bottom until you see _GitHub Pages_.
 
 You can use GitHub to host the source code of a project of yours. For instance I have a project [here](https://github.com/nhatcher/ariana-lua) that allows you to plot functions using the [Lua](http://www.lua.org/) programming language!
 
@@ -138,6 +138,7 @@ GitHub Actions (*)
 ------------------
 
 In this sections we will create the content in Markdown and use GitHub actions to generate the HTML for us.
+In passing you will learn about some very important ideas of _modern_ software development such us continuos integration (CI) and containers(docker).
 
 Custom domain
 -------------
@@ -149,8 +150,10 @@ Visitors of your blog will not be aware that all the content is in GitHub!
 Favicon (*)
 -----------
 
-Your website probably needs a [favicon](https://en.wikipedia.org/wiki/Favicon). The easiest way is to go to one of the many [favicon generators](https://favicon.io/favicon-generator/).
-If you don't know what to do just get your initials, some colors and good to go! If it works for [Bill Gates](https://www.gatesnotes.com/) works for you.
+Your website probably needs a [favicon](https://en.wikipedia.org/wiki/Favicon).
+The easiest way is to go to one of the [many](https://www.favicon.cc/) [favicon](https://www.ionos.com/tools/favicon-generator) [generators](https://favicon.io/favicon-generator/).
+
+If you don't know what to do just get your initials, some colors and good to go! If it works for [Bill Gates](https://www.gatesnotes.com/), it probably works for you.
 
 
 
