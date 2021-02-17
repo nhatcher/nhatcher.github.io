@@ -2,7 +2,7 @@
 author = "Nicolás Hatcher"
 title = "Berlin-Frankfurt-Berlin by bike"
 date = "2011-07-03T02:57:00-07:00"
-description = "My frist bike trip to Frankfurt am Oder."
+description = "My first bike trip to Frankfurt am Oder."
 tags = [
     "personal",
     "memories",
