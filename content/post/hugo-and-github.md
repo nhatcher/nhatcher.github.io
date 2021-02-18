@@ -155,22 +155,29 @@ The easiest way is to go to one of the [many](https://www.favicon.cc/) [favicon]
 
 If you don't know what to do just get your initials, some colors and good to go! If it works for [Bill Gates](https://www.gatesnotes.com/), it probably works for you.
 
-Adding Comments
----------------
+Adding Comments (*)
+-------------------
 
 Adding comments is a tricky part. This is the thing, you can't add comments in a static website. That's it, end of story.
 
 There are two ways out of it:
 
-* Either we store the comments in yet another server
-* Or we somehow change the GitHub repo with every comment. That's what we are going to do!
+1. Either we store the comments in yet another server
+2. Or we somehow change the GitHub repo with every comment. That's what we are going to do!
 
 You might find [here](https://gohugo.io/content-management/comments/) a larger description of possibilities.
 
-At the time of writing three possibilities stand out:
+At the time of writing two possibilities of the first kind stand out:
 
-* [Disqus](https://disqus.com/) has a free tier but it is bloated with adds, cookies and trackers. Not my cup of tea
+* [Disqus](https://disqus.com/) has a free tier but it is bloated with adds, cookies and trackers. Not my cup of tea. I wouldn't go anywhere near them.
 * [Commento](https://commento.io/). If does not have a free option but it is open source and you can host it yourself. It would be a fantastic match for us if we were to host the blog ourselves.
+
+I would really want to try Commento. Looks slick, not bloated and it is written in the beautiful language that is `go`, same as Hugo!
+
+Only one of the second kind:
+
 * [Utterances](https://utteranc.es/). It's free, no ads, no trackers and it's based on GitHub! Let's use this one.
+
+See <https://mscipio.github.io/post/utterances-comment-engine/>
 
 

@@ -34,6 +34,15 @@ mainSections = ["post"]
 images = []
 doNotLoadAnimations = true
 
+# see: https://utteranc.es/
+[params.utterances]
+repo = "nhatcher/nhatcher.github.io"
+# possibilities: "url", "title", "og:title"
+issueTerm = "pathname"
+# possibilities: "github-light"
+theme= "preferred-color-scheme"
+# label = 
+
 ## Social links
 # use 'fab' when brand icons, use 'fas' when standard solid icons.
 [[params.socialIcons]]
