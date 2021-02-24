@@ -5,10 +5,12 @@ Description: "Let's create a blog!"
 Tags: []
 Categories: []
 DisableComments: false
+Draft: true
 ---
 
-        Forgive me pretty baby but I always take the long way home.
-        Tome Waits
+>        Forgive me pretty baby but I always take the long way home.
+>   
+>        Tom Waits
 
 Do you want to create a webpage with some static content like a blog or some info page?
 Are you familiar with git, github, markdown and a code editor?
