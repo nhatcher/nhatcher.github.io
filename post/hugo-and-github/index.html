@@ -1,0 +1,218 @@
+<!doctype html><html lang=en data-theme><head>
+<title> Nicolás Hatcher | How to create a blog with Hugo and Github </title>
+<meta charset=utf-8><meta name=generator content="Hugo 0.81.0"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=description content="Software developer by trade, physicist by soul">
+<link rel=stylesheet href=https://www.nhatcher.com/css/style.min.0c643de4008adca329f7a2d616ce308cca99d4ef45e4cca307323e7857910194.css integrity="sha256-DGQ95ACK3KMp96LWFs4wjMqZ1O9F5MyjBzI+eFeRAZQ=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=https://www.nhatcher.com/css/markupHighlight.min.f798cbda9aaa38f89eb38be6414bd082cfd71a6780375cbf67b6d2fb2b96491e.css integrity="sha256-95jL2pqqOPies4vmQUvQgs/XGmeAN1y/Z7bS+yuWSR4=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous>
+<link rel="shortcut icon" href=https://www.nhatcher.com/favicons/favicon.ico type=image/x-icon>
+<link rel=apple-touch-icon sizes=180x180 href=https://www.nhatcher.com/favicons/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=https://www.nhatcher.com/favicons/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=https://www.nhatcher.com/favicons/favicon-16x16.png>
+<link rel=canonical href=https://www.nhatcher.com/post/hugo-and-github/>
+<script type=text/javascript src=https://www.nhatcher.com/js/anatole-header.min.0c05c0a90d28c968a1cad4fb31abd0b8e1264e788ccefed022ae1d3b6f627514.js integrity="sha256-DAXAqQ0oyWihytT7MavQuOEmTniMzv7QIq4dO29idRQ=" crossorigin=anonymous></script>
+<script type=text/javascript src=https://www.nhatcher.com/js/anatole-theme-switcher.min.8ef71e0fd43f21a303733dbbecae5438b791d2b826c68a9883bd7aa459a076d2.js integrity="sha256-jvceD9Q/IaMDcz277K5UOLeR0rgmxoqYg716pFmgdtI=" crossorigin=anonymous></script>
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="How to create a blog with Hugo and Github">
+<meta name=twitter:description content="Let's create a blog!">
+</head>
+<body><div class="sidebar .">
+<div class=logo-title>
+<div class=title>
+<img src=https://www.nhatcher.com/images/profile.jpg alt="profile picture">
+<h3 title><a href=/>I'm Nicolás Hatcher</a></h3>
+<div class=description>
+<p>Software developer by trade, physicist by soul</p>
+</div>
+</div>
+</div>
+<ul class=social-links>
+<li>
+<a href="https://arxiv.org/search/?searchtype=author&query=Hatcher%2C+N" rel=me aria-label=Publications>
+<i class="fas fa-file-alt fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://github.com/nhatcher/ rel=me aria-label=GitHub>
+<i class="fab fa-github fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=https://www.instagram.com/theuniverse.today rel=me aria-label=instagram>
+<i class="fab fa-instagram fa-2x" aria-hidden=true></i>
+</a>
+</li>
+<li>
+<a href=mailto:nicolas@theuniverse.today rel=me aria-label=e-mail>
+<i class="fas fa-envelope fa-2x" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+<div class=footer>
+<div class=by_farbox>&copy; Nicolás Hatcher 2021 </div>
+</div>
+</div>
+<div class=main>
+<div class="page-top .">
+<a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+</a>
+<ul class=nav id=navMenu>
+<li><a href=/ title>Home</a></li>
+<li><a href=/post/ title>Posts</a></li>
+<li><a href=/about/ title>About</a></li>
+<li class=theme-switch-item>
+<a class=theme-switch title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a>
+</li>
+</ul>
+</div>
+<div class=autopagerize_page_element>
+<div class=content>
+<div class="post .">
+<div class=post-content>
+<div class=post-title>
+<h3>How to create a blog with Hugo and Github</h3>
+<div class=info>
+<em class="fas fa-calendar-day"></em>
+<span class=date> Sun, Feb 14, 2021
+</span>
+<em class="fas fa-stopwatch"></em>
+<span class=reading-time>8-minute read</span>
+</div>
+</div>
+<blockquote>
+<pre><code>   Forgive me pretty baby but I always take the long way home.
+
+   Tom Waits
+</code></pre>
+</blockquote>
+<p>Do you want to create a webpage with some static content like a blog or some info page?
+Are you familiar with git, github, markdown and a code editor?
+You ok with paying 10 bucks a year for a domain name?</p>
+<p>If you answered yes to those questions then you are in the right place.</p>
+<p>You can go ahead and skip the caveats section where I present you with a rainbow of other possibilities.
+As Steven Weinberg usually says, &ldquo;Sections marked with an asterisk are somewhat out of the book&rsquo;s main line of development and may be omitted in a first reading&rdquo;</p>
+<h2 id=some-caveats->Some caveats (*)</h2>
+<p>There are a million ways to create content for the Internet these days. Many of of them far easier than the one I am about to describe.
+But they all come with different trade offs.</p>
+<p>For instance you could create an account with <a href=https://www.blogger.com/>blogger</a>, <a href=https://wordpress.com/>wordpress</a>, <a href=https://www.wix.com/>wix</a>, <a href=https://www.squarespace.com/>squarespace</a> and a long list.
+Those tools are fine and they give you lot&rsquo;s of stuff for free. First of all you just need to create an account and start writing content.
+You will have a full platform to help you create content in a way very similar to how you would create a power point or a word document.
+They will help you right out of the bat with things like Google analytics, comments, adwords and much more that you can get just by mindlessly clicking away.</p>
+<p>So, what&rsquo;s the catch? Well, remember the old adagio, <em>&ldquo;If you are not paying for it, you are the product&rdquo;</em>.
+Those places might put ads, trackers and cookies. I&rsquo;m not sure you really own the contents you put it.
+Even though they might have a free tier, you will probably end up having to pay monthly if you need some extra feature.
+They are as flexible as the tailored tools allow. They are bloated software full of unused features.
+And they do have a learning curve. You will have to learn the nuts bolts of that platform of an un-transferable knowledge.
+Content in any of those platforms will not be easy to move to another if one day you decide to change.
+You might not be able to get your own domain name without paying or advertisement.
+But if you can live with some of those gotchas go for it, they are excellent.
+I have used them all! My favorite living mathematician, Terrence Tao, has a blog in <a href=https://terrytao.wordpress.com/>wordpress</a>. If you just want a blog, and don want to pay, blogger is fantastic. If you need a landing page for a business use wix or squarespace. and pay for it.</p>
+<p>So, if you want to do it the free way, with not bloated software, owning your content, learning tools with transferable knowledge and are comfortable in the command line continue reading!</p>
+<p>Even if you answer yes to all those questions, Hugo is not the only player in town. There are lots of others. Maybe the most famous one is <a href=https://jekyllrb.com/>Jekyll</a>.
+It is not worse or better than Hugo, it&rsquo;s just another one.</p>
+<p>You do not need to use Github, you can as well in a very similar fashion use <a href=https://about.gitlab.com/>Gitlab</a>. A yet different place would be <a href=https://www.netlify.com/>Netlify</a>.</p>
+<p>To finalize, we will be using <em>automated deployments</em> that, in our case, came with the name of <em>GitHub actions</em>. This means that we will setup things in a way that you can make a change in your blog and the blog will update automatically. But you don&rsquo;t need to do that. You can just as well build the site on your machine and then push the built bundle.</p>
+<h2 id=setting-everything-up>Setting everything up</h2>
+<p>You will need a couple of things, but with a bit of luck you already have all of those iun hand</p>
+<ul>
+<li>You will need to own a domain name. Like <code>https://example.com</code>. If you don&rsquo;t have one, you can get one for 10€ a year at <a href=https://www.namecheap.com>namecheap</a>.</li>
+<li>Aside from that you will need a <a href=https://www.github.com>Github</a> account. Go ahead, get one, it&rsquo;s free!</li>
+<li>Make sure you have <code>git</code> installed and that you can push and pull from Github.</li>
+<li>Next thing you need to do is install <a href=https://gohugo.io/>Hugo</a>.</li>
+<li>Also, please make sure you have a code editor. If you don&rsquo;t have a preference install <a href=https://code.visualstudio.com/>Visual Studio Code</a> from Microsoft, but any other will do.</li>
+<li>Finally, and this is the most important part, think about some content. Something to get you started. It can be just a description about yourself and a brief post you want to make. You can just email you that content or write it in a word document, it doesn&rsquo;t matter.</li>
+</ul>
+<p>You can now jump to an introduction to Hugo or go and learn about GitHub and GitHub actions.</p>
+<h2 id=an-introduction-to-hugo-the-static-site-generator>An introduction to Hugo, the static site generator</h2>
+<p>So what is Hugo?. It&rsquo;s <em>a static site generator</em>. You give it some content in the form of markdown (mostly, but you will be able to upload images, JavaScript, CSS,&mldr;), make some choices and it produces a bunch of HTML, CSS and JavaScript. If you are into programing, this is the <em>compilation stage</em>.</p>
+<p>Hugo, following the go programming language spirit, is a single binary. In less than 50Mb of a single file we have all the power we need. You can&rsquo;t double click on it. It&rsquo;s a CLI (command line interface) tool. But it has hundreds of options.</p>
+<p>Let me walk you through it.</p>
+<p>Open a terminal in your computer and write (you can follow <a href=https://gohugo.io/getting-started/quick-start/>Hugo quick start guide</a> for comparison)</p>
+<p><code>hugo new site &lt;my-site-name></code></p>
+<p>Where <code>&lt;my-site-name></code> is anything you want, it doesn&rsquo;t matter. It will be the name of the folder where all your code is sitting. Say you did:</p>
+<p><code>hugo new site mysite</code></p>
+<p>Then you will have to hop into that folder:</p>
+<p><code>cd mysite</code></p>
+<p>If you do an <code>ls</code> (or <code>dir</code> if you are on Windows), you will see the whole directory structure. There are a few folders, but they are mostly empty.
+Only one file in the root folder that we care about <code>config.toml</code></p>
+<h2 id=add-a-theme>Add a theme</h2>
+<h2 id=awesome-github>Awesome GitHub</h2>
+<p>In this section we are going to crete a webpage served by GitHub.</p>
+<p>I&rsquo;m going to share a secret with you, GitHub is freaking awesome. And what they do for people is awesome.
+In this section we are going to learn how to host a webpage in GitHub. This is totally unrelated to Hugo.</p>
+<p>There are two slightly different ways to host a webpage in GitHub.</p>
+<ul>
+<li>You can host a page for a project of yours in <code>https://&lt;username>.github.io/&lt;project-name></code></li>
+<li>You can host a page for the whole thing at <code>https://&lt;username>.github.io/</code></li>
+</ul>
+<p>The process is exactly the same, so I will just show you how to do the second way.</p>
+<p>First thing you need to do is to create a new repository with this very special name: <code>&lt;username>.github.io</code>. For example, here is mine:</p>
+<p><a href=https://github.com/nhatcher/nhatcher.github.io>Nicolás &lsquo;root&rsquo; repo</a></p>
+<p>This is your first exercise, ready? Create the repo and add an <code>index.html</code> file. If you don&rsquo;t know what to write just copy/paste this:</p>
+<div class=highlight><pre class=chroma><code class=language-html data-lang=html><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
+<span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;UTF-8&#34;</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>http-equiv</span><span class=o>=</span><span class=s>&#34;X-UA-Compatible&#34;</span> <span class=na>content</span><span class=o>=</span><span class=s>&#34;IE=edge&#34;</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;viewport&#34;</span> <span class=na>content</span><span class=o>=</span><span class=s>&#34;width=device-width, initial-scale=1.0&#34;</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>title</span><span class=p>&gt;</span>My First GitHub hosted page<span class=p>&lt;/</span><span class=nt>title</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>h1</span><span class=p>&gt;</span>Brilliant!<span class=p>&lt;/</span><span class=nt>h1</span><span class=p>&gt;</span>
+    <span class=p>&lt;</span><span class=nt>div</span><span class=p>&gt;</span>I feel this blog is going <span class=p>&lt;</span><span class=nt>span</span> <span class=na>style</span><span class=o>=</span><span class=s>&#34;color: red&#34;</span><span class=p>&gt;</span>places<span class=p>&lt;/</span><span class=nt>span</span><span class=p>&gt;</span>!<span class=p>&lt;/</span><span class=nt>div</span><span class=p>&gt;</span>
+<span class=p>&lt;/</span><span class=nt>head</span><span class=p>&gt;</span>
+<span class=p>&lt;</span><span class=nt>body</span><span class=p>&gt;</span>
+    
+<span class=p>&lt;/</span><span class=nt>body</span><span class=p>&gt;</span>
+<span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</code></pre></div><p>This is just code. It&rsquo;s not a webpage just yet. Tu turn it into a webpage, click settings in your project and scroll down to the very bottom until you see <em>GitHub Pages</em>.</p>
+<p>You can use GitHub to host the source code of a project of yours. For instance I have a project <a href=https://github.com/nhatcher/ariana-lua>here</a> that allows you to plot functions using the <a href=http://www.lua.org/>Lua</a> programming language!</p>
+<h2 id=github-actions->GitHub Actions (*)</h2>
+<p>In this sections we will create the content in Markdown and use GitHub actions to generate the HTML for us.
+In passing you will learn about some very important ideas of <em>modern</em> software development such us continuos integration (CI) and containers (docker).</p>
+<h2 id=custom-domain>Custom domain</h2>
+<p>In this section we will lear how to use our custom domain <code>https://www.example.com</code> instead of the GitHub URL.
+Visitors of your blog will not be aware that all the content is in GitHub!</p>
+<h2 id=favicon->Favicon (*)</h2>
+<p>Your website probably needs a <a href=https://en.wikipedia.org/wiki/Favicon>favicon</a>.
+The easiest way is to go to one of the <a href=https://www.favicon.cc/>many</a> <a href=https://www.ionos.com/tools/favicon-generator>favicon</a> <a href=https://favicon.io/favicon-generator/>generators</a>.</p>
+<p>If you don&rsquo;t know what to do just get your initials, some colors and good to go! If it works for <a href=https://www.gatesnotes.com/>Bill Gates</a>, it probably works for you.</p>
+<h2 id=adding-comments->Adding Comments (*)</h2>
+<p>Adding comments is a tricky part. This is the thing, you can&rsquo;t add comments in a static website. That&rsquo;s it, end of story.</p>
+<p>There are two ways out of it:</p>
+<ol>
+<li>Either we store the comments in yet another server</li>
+<li>Or we somehow change the GitHub repo with every comment. That&rsquo;s what we are going to do!</li>
+</ol>
+<p>You might find <a href=https://gohugo.io/content-management/comments/>here</a> a larger description of possibilities.</p>
+<p>At the time of writing two possibilities of the first kind stand out:</p>
+<ul>
+<li><a href=https://disqus.com/>Disqus</a> has a free tier but it is bloated with adds, cookies and trackers. Not my cup of tea. I wouldn&rsquo;t go anywhere near them.</li>
+<li><a href=https://commento.io/>Commento</a>. If does not have a free option but it is open source and you can host it yourself. It would be a fantastic match for us if we were to host the blog ourselves.</li>
+</ul>
+<p>I would really want to try Commento. Looks slick, not bloated and it is written in the beautiful language that is <code>go</code>, same as Hugo!</p>
+<p>Only one of the second kind:</p>
+<ul>
+<li><a href=https://utteranc.es/>Utterances</a>. It&rsquo;s free, no ads, no trackers and it&rsquo;s based on GitHub! Let&rsquo;s use this one.</li>
+</ul>
+<p>See <a href=https://mscipio.github.io/post/utterances-comment-engine/>https://mscipio.github.io/post/utterances-comment-engine/</a></p>
+</div>
+<div class=post-footer>
+<div class=info>
+</div>
+</div>
+<div id=fb_comments_container>
+<h2>comments</h2>
+<script src=https://utteranc.es/client.js repo=nhatcher/nhatcher.github.io issue-term=pathname theme=preferred-color-scheme crossorigin=anonymous async></script>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script type=text/javascript src=https://www.nhatcher.com/js/jquery.min.64d0083866906099f942140bc1c5cba4b1bf65783c52e4a63c5c46bf9dbc41f4.js integrity="sha256-ZNAIOGaQYJn5QhQLwcXLpLG/ZXg8UuSmPFxGv528QfQ=" crossorigin=anonymous></script>
+<script type=text/javascript src=https://www.nhatcher.com/js/bundle.min.45159b0e20ba3878972e064b7edc464c31a9e35a0d0a6a71e3fec84efdbe2ea5.js integrity="sha256-RRWbDiC6OHiXLgZLftxGTDGp41oNCmpx4/7ITv2+LqU=" crossorigin=anonymous></script>
+<script type=text/javascript src=https://www.nhatcher.com/js/medium-zoom.min.2d6fd0be87fa98f0c9b4dc2536b312bbca48757f584f6ea1f394abc9bcc38fbc.js integrity="sha256-LW/Qvof6mPDJtNwlNrMSu8pIdX9YT26h85SrybzDj7w=" crossorigin=anonymous></script>
+</body>
+</html>
