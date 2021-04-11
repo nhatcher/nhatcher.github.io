@@ -10,7 +10,7 @@ As a theoretical physicist my passion has always been understanding Nature. In p
 I love astrophysics, form our Solar system to the more remote neutron stars. We are living fantastic times for that science, with almost groundbreaking results every few years. The connection of astrophysics and elementary particle physics might hold some of Nature’s best kept secrets.
 
 As a computer programmer my main interests are compilers, computer algebra systems and algorithms.
-My favourite programming language is Rust, but I am fluent in many other languages like Python, JavaScript (and TypeScript), C/C++, Lua.
+My favourite programming language is Rust(!), but I am fluent in many other languages like Python, JavaScript (and TypeScript), C/C++, Lua.
 I don't like frameworks, and I like _lean_ software.
 
 I am also very interested and invested in education and science in a very wide scope. My dream is one day to be able to give back some of the things I have learned along the years.
