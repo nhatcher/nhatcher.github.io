@@ -3,7 +3,7 @@ title: This is about me!
 date: 12-2-2021
 ---
 
-My name is Nicolás Hatcher, I am a theoretical physicist by soul and a computer programmer by trade. I live in Berlin, this is my website and window to the world. You can find here information about me and the many things I like.
+My name is Nicolás Hatcher, I am a theoretical physicist by soul and a computer programmer by trade. I live in Berlin, this is my website and window to the world. You can find here information about me and the *few* things I like.
 
 As a theoretical physicist my passion has always been understanding Nature. In particular the unified description of particle physics and gravitation. This is a notoriously difficult problem, with little to no advance in the past 40 years or so. Since roughly 1973 the standard model of particle physics in composed of several moving parts that, in the opinion of most scholars, do not quite fit together. Nevertheless a deeper understanding of the fundamental laws of Nature is, in my opinion, within our reach in the near future.
 
