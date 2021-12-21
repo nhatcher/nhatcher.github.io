@@ -81,13 +81,14 @@
 <span class=date> Sun, Dec 19, 2021
 </span>
 <em class="fas fa-stopwatch"></em>
-<span class=reading-time>6-minute read</span>
+<span class=reading-time>7-minute read</span>
 </div>
 </div>
 <h1 id=how-to-provision-a-set-up-a-server-for-a-web-application>How to provision a set up a server for a web application</h1>
 <p>WARNING: Work in progress</p>
 <p>Once you have a web application you will need to deploy it to a server. You will learn here how to do that.
-This is for you if you have a small web application that connects to a database of sorts and has to serve dynamic content.</p>
+This is for you if you have a small web application that connects to a database of sorts and has to serve dynamic content.
+Here you will learn in it&rsquo;s simplest form how to take that application and deploy it in the internet. Give it a URL, make it secure and even get an email associated to your service.</p>
 <p>If you want a landing page, a blog or just your home page there are simpler and almost free ways of doing it.</p>
 <p>There are are only two things you will need to pay for:</p>
 <ul>
@@ -139,10 +140,10 @@ jsmith@93.184.216.34:~$
 </code></pre></div><p>They should change their password</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>jsmith@93.184.216.34:~$ passwrd
 </code></pre></div><p>Repeat for any superuser in the system.</p>
-<h3 id=install-firewall>Install firewall</h3>
+<h3 id=firewall>Firewall</h3>
 <p>WARNING: Be very careful in this section, if you make a mistake you can lock yourself out permanently from the computer.</p>
 <p>In this section we are going to setup a <em>firewall</em>. That&rsquo;s basically a simple way for blocking traffic.
-This is a bit of a complicated issue. The still standard way of doing it in Linux is wita program called <code>iptables</code>. That&rsquo;s a bit too complex for a beginner and there are a couple of programs that will simplify your life while using iptables in the background. Two I have used are <em>firehol</em> and <em>ufw</em>. We will use here the later (although I actually use the former in most situations).</p>
+This is a bit of a complicated issue. The still standard way of doing it in Linux is with a program called <code>iptables</code>. That&rsquo;s a bit too complex for a beginner and there are a couple of programs that will simplify your life while using iptables in the background. Two I have used are <em>firehol</em> and <em>ufw</em>. We will use here the later (although I actually use the former in most situations).</p>
 <p>Install the <em>uncomplicated firewall</em> and make sure it is disabled.</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>root@93.184.216.34:~# apt install ufw
 root@93.184.216.34:~# ufw disable
@@ -164,27 +165,58 @@ root@93.184.216.34:~# ufw allow https
 </code></pre></div><p>NOTES: Even iptables is outdated it&rsquo;s successor since 2014, <em>nftables</em> is still not widely used. They both (iptables and nftables) run on the top of a kernel space program called <em>netfilter</em>. How all this works is something for a later (more theoretical and interesting post).</p>
 <h2 id=logs>Logs</h2>
 <p>You can find logs in&mldr;</p>
-<h2 id=webserver>Webserver</h2>
+<h2 id=webserver-and-the-application-servers>Webserver and the Application Servers</h2>
 <p>If you have build your web application you probably run it on your local machine in some port with some command.
 It might be python, node js, go,&mldr; any language. Some times you might need to run more than one of those to have the application running.
 I call those the <em>application server</em>. Depending a bit on your development environment they might <em>not</em> be production ready.
 For instance, many people like their webpages to reload <em>automatically</em> whenever there is a file change. That&rsquo;s definitely not fine for production purposes (both the application server and the javascript build). Simple python servers like bottle or django are not ready to be deployed on production.
 What is the right application sever for your particular case it is difficult for me to say, it depends on your programming language and your stack.
-In general if you are working with python you might want to use Guicorn or uWGSI. If you are working with node the famous <em>express</em> might be production ready. A simple server written in the <em>go</em> programming language might need nothing else.</p>
+In general if you are working with python you might want to use <a href=https://gunicorn.org/>Gunicorn</a> or <a href=https://uwsgi-docs.readthedocs.io/en/latest/>uWSGI</a>. If you are working with node the famous <em>express</em> might be production ready. A simple server written in the <em>go</em> programming language might need nothing else.</p>
 <p>But even when you have selected that, the application server might benefit a lot for a professional <em>webserver</em> sitting in front.
-The webserver can do everything that is language agnostic and that does not need to be repeated for every language and framework. Things like compress files, do the SSL, route general traffic, cache files. The webserver can also help serving static files like javascript, html, css or images. In general the webserver will sit in front, being the first (after the firewall, of course) in getting all the traffic directed towards your computer and it will be up to it what to do with the request, route it to some other service or act by serving a static asset.</p>
-<p>There many fine and battle tested webservers. Three I have used extensively are, Apache, nginx and Caddy.</p>
-<p>My personal favourite is <a href=https://caddyserver.com/>Caddy</a>, but we will use <a href=https://www.nginx.com/>nginx</a> this time around.</p>
+The webserver can do everything that is language agnostic and that does not need to be repeated for every language and framework. Things like compress files, do the SSL, route general traffic, cache files. The webserver can also help serving static files like javascript, html, css or images. In general the webserver will sit in front, being the first (after the firewall, of course) in getting all the traffic directed towards your computer and it will be up to it what to do with the request, route it to some other service or act by serving a static asset. The webserver takes care of so many other things you probably don&rsquo;t want to think about like slow clients, lost of request coming at the same time, dealing with wrong requests. And even beyond, the webserver can be used as a load balancer, manipulate response headers, doing access control and security checks, fetching storage backends to decide where to route a request,&mldr; List is probably endless.</p>
+<p>There many fine and battle tested webservers. Three I have used extensively are: <a href=https://httpd.apache.org/>Apache</a>, <a href=https://www.nginx.com/>nginx</a> and <a href=https://caddyserver.com/>Caddy</a>.</p>
+<p>My personal favourite is Caddy, but we will use nginx this time around. I do not use Apache anymore, but it is a fine choice.</p>
 <p>Before anything you should make sure there is not a webserver already installed in your system. A simple test would be to visit your ip address <code>https://93.184.216.34/</code>.
 If there is a webserver already installed you should remove it first. It is most likely the Apache webserver.</p>
 <p>First let&rsquo;s install nginx and serve some static content.</p>
 <div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash>root@93.184.216.34:~# apt install nginx
 root@93.184.216.34:~# service start nginx
 </code></pre></div><p>Now if you visit your ip address you should find the default nginx greeting page.</p>
-<h2 id=services>Services</h2>
-<p>Underprivileged user</p>
-<p>service my application start :)</p>
-<h2 id=domain-names>Domain names</h2>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>location / {
+        # First attempt to serve request as file, then
+        # as directory, then fall back to displaying a 404.
+        try_files $uri $uri/ =404;
+        root /var/www/html;
+}
+
+location /api/ {
+        proxy_set_header Host $host;
+        # proxy_set_header X-Real-IP $remote_addr;
+        proxy_pass http://127.0.0.1:8080/;
+}
+
+</code></pre></div><h2 id=services>Services</h2>
+<p>We will first create an underprivileged user to run the web application.
+We created some normal users before, with <code>home</code> and added them to the sudoers list. We are going to go the opposite way here.</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=c1># vim /lib/systemd/system/my_app.service</span>
+</code></pre></div><p>Example service</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback>[Unit]
+Description=My description of the app
+Documentation=https://example.com/documentation
+After=network.target
+
+[Service]
+Type=simple
+User=node
+WorkingDirectory=/var/www/server
+ExecStart=/opt/node/bin/node /var/www/server/index.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+</code></pre></div><p>To start it</p>
+<div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=c1># service my app start</span>
+</code></pre></div><h2 id=domain-names>Domain names</h2>
 <p>Namecheap</p>
 <h2 id=certificates>Certificates</h2>
 <p>Let&rsquo;s encrypt</p>
