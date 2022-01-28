@@ -170,7 +170,7 @@ You might find [here](https://gohugo.io/content-management/comments/) a larger d
 
 At the time of writing two possibilities of the first kind stand out:
 
-* [Disqus](https://disqus.com/) has a free tier but it is bloated with adds, cookies and trackers. Not my cup of tea. I wouldn't go anywhere near them.
+* [Disqus](https://disqus.com/) has a free tier but it is bloated with adds, cookies and trackers.
 * [Commento](https://commento.io/). If does not have a free option but it is open source and you can host it yourself. It would be a fantastic match for us if we were to host the blog ourselves.
 
 I would really want to try Commento. Looks slick, not bloated and it is written in the beautiful language that is `go`, same as Hugo!

@@ -1,5 +1,5 @@
 ---
-title: This is about me!
+title: About me!
 date: 12-2-2021
 ---
 

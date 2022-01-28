@@ -15,10 +15,10 @@ categories = [
 series = ["Programming"]
 +++
 
-How to start a simple webpage with TypeScript, a minimalistic approach.
+How to start a simple webpage with TypeScript, a minimalist approach.
 
 
-The state of JavaScript (Feb 2021)
+The state of JavaScript (Feb 2022)
 ----------------------------------
 
 
