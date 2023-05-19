@@ -1,0 +1,223 @@
+<!doctype html><html lang=en data-theme><head>
+<title> Nicolás Hatcher | Trigonometric functions in WebAssembly </title><meta charset=utf-8><meta name=generator content="Hugo 0.111.3"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name=description content="Software developer by trade, physicist by soul">
+<link rel=stylesheet href=https://www.nhatcher.com/css/style.min.0c643de4008adca329f7a2d616ce308cca99d4ef45e4cca307323e7857910194.css integrity="sha256-DGQ95ACK3KMp96LWFs4wjMqZ1O9F5MyjBzI+eFeRAZQ=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=https://www.nhatcher.com/css/markupHighlight.min.f798cbda9aaa38f89eb38be6414bd082cfd71a6780375cbf67b6d2fb2b96491e.css integrity="sha256-95jL2pqqOPies4vmQUvQgs/XGmeAN1y/Z7bS+yuWSR4=" crossorigin=anonymous type=text/css>
+<link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin=anonymous>
+<link rel="shortcut icon" href=https://www.nhatcher.com/favicons/favicon.ico type=image/x-icon>
+<link rel=apple-touch-icon sizes=180x180 href=https://www.nhatcher.com/favicons/apple-touch-icon.png>
+<link rel=icon type=image/png sizes=32x32 href=https://www.nhatcher.com/favicons/favicon-32x32.png>
+<link rel=icon type=image/png sizes=16x16 href=https://www.nhatcher.com/favicons/favicon-16x16.png>
+<link rel=canonical href=https://www.nhatcher.com/post/should_i_import_or_should_i_roll/>
+<script type=text/javascript src=https://www.nhatcher.com/js/anatole-header.min.df804b63b5bd8474ea0756ea874bc8f1e92552708cc6ea43aa0d76981dc419f9.js integrity="sha256-34BLY7W9hHTqB1bqh0vI8eklUnCMxupDqg12mB3EGfk=" crossorigin=anonymous></script>
+<script type=text/javascript src=https://www.nhatcher.com/js/anatole-theme-switcher.min.3829579c725749492568b0e6fa9da3012a7fc37fd291b4fd79e33c1df5d8a34a.js integrity="sha256-OClXnHJXSUklaLDm+p2jASp/w3/SkbT9eeM8HfXYo0o=" crossorigin=anonymous></script>
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Trigonometric functions in WebAssembly">
+<meta name=twitter:description content="All the code in this blog post is available at github.">
+</head><body><div class="sidebar .">
+<div class=logo-title>
+<div class=title>
+<img src=https://www.nhatcher.com/images/profile.jpg alt="profile picture">
+<h3 title><a href=/>I'm Nicolás Hatcher</a></h3><div class=description>
+<p>Software developer by trade, physicist by soul</p></div></div></div><ul class=social-links>
+<li>
+<a href="https://arxiv.org/search/?searchtype=author&amp;query=Hatcher%2C+N" rel=me aria-label=Publications>
+<i class="fas fa-file-alt fa-2x" aria-hidden=true></i>
+</a>
+</li><li>
+<a href=https://github.com/nhatcher/ rel=me aria-label=GitHub>
+<i class="fab fa-github fa-2x" aria-hidden=true></i>
+</a>
+</li><li>
+<a href=https://www.instagram.com/theuniverse.today rel=me aria-label=instagram>
+<i class="fab fa-instagram fa-2x" aria-hidden=true></i>
+</a>
+</li><li>
+<a href=mailto:nicolas@theuniverse.today rel=me aria-label=e-mail>
+<i class="fas fa-envelope fa-2x" aria-hidden=true></i>
+</a>
+</li></ul><div class=footer>
+<div class=by_farbox>&copy; Nicolás Hatcher 2023 </div></div></div><div class=main>
+<div class="page-top .">
+<a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+<span aria-hidden=true></span>
+</a>
+<ul class=nav id=navMenu>
+<li><a href=/ title>Home</a></li><li><a href=/post/ title>Posts</a></li><li><a href=/about/ title>About</a></li><li class=theme-switch-item>
+<a class=theme-switch title="Switch Theme">
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a>
+</li></ul></div><div class=autopagerize_page_element>
+<div class=content>
+<div class="post .">
+<div class=post-content>
+<div class=post-title>
+<h3>Trigonometric functions in WebAssembly</h3><div class=info>
+<em class="fas fa-calendar-day"></em>
+<span class=date> Fri, May 19, 2023
+</span>
+<em class="fas fa-stopwatch"></em>
+<span class=reading-time>5-minute read</span>
+</div></div><p>All the code in this blog post is available at <a href=https://github.com/nhatcher/import_or_roll>github</a>. I also setup a site to make some tests of your own in the <a href=https://www.nhatcher.com/import_or_roll/>github pages</a>.</p><p>When computing elementary transcendental functions in WebAssembly (like trigonometric functions) we have two options, we can either import the functions for the runtime or roll our own.</p><p>The second option doesn&rsquo;t really mean that we have two write our own implementation but that we can use the <code>libc</code> or whatever implementation we have from our standard library.</p><p>As we shall see we probably want to import and use the implementation from the host runtime, in our case the browser, and not the one given by our standard library. This is good news because it means we need to ship less code <em>and</em> be more performant.</p><p>Think about the following problem, how many integer numbers <code>x</code> in <code>[0, N]</code> are such that <code>sin(x) &lt; T</code>?</p><p>A simple JavaScript function would look like:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-javascript data-lang=javascript><span class=line><span class=cl><span class=kd>function</span> <span class=nx>count_numbers</span><span class=p>(</span><span class=nx>N</span><span class=p>,</span> <span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kd>let</span> <span class=nx>count</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kd>let</span> <span class=nx>i</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>i</span> <span class=o>&lt;</span> <span class=nx>N</span><span class=p>;</span> <span class=nx>i</span> <span class=o>+=</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>sin</span><span class=p>(</span><span class=nx>i</span><span class=p>)</span> <span class=o>&lt;</span> <span class=nx>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>count</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=nx>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>For instance: <code>count_numbers(100_000_000, 0.223) => 57_158_497</code>. In C:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// gcc -o test tets.c -O3 -lm
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;stdio.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;math.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>count_numbers</span><span class=p>(</span><span class=kt>double</span> <span class=n>N</span><span class=p>,</span> <span class=kt>double</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>double</span> <span class=n>i</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span> <span class=o>+=</span> <span class=mf>1.0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nf>sin</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>count</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=nf>count_numbers</span><span class=p>(</span><span class=mf>100000000.0</span><span class=p>,</span> <span class=mf>0.223</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;%i&#34;</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>Now let&rsquo;s run this in WebAssembly. Let&rsquo;s use Rust first. Create a project like:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ cargo new --lib test_wasm
+</span></span></code></pre></div><p>Modify <code>cargo.toml</code> to contain the <code>crate-type = ["cdylib"]</code> lib:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-toml data-lang=toml><span class=line><span class=cl><span class=p>[</span><span class=nx>package</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=nx>name</span> <span class=p>=</span> <span class=s2>&#34;test_wasm&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>version</span> <span class=p>=</span> <span class=s2>&#34;0.1.0&#34;</span>
+</span></span><span class=line><span class=cl><span class=nx>edition</span> <span class=p>=</span> <span class=s2>&#34;2021&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>dependencies</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=nx>lib</span><span class=p>]</span>
+</span></span><span class=line><span class=cl><span class=nx>crate-type</span> <span class=p>=</span> <span class=p>[</span><span class=s2>&#34;cdylib&#34;</span><span class=p>]</span>
+</span></span></code></pre></div><p>In <code>lib.rs</code> you will need:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-Rust data-lang=Rust><span class=line><span class=cl><span class=cp>#[link(wasm_import_module = </span><span class=s>&#34;Math&#34;</span><span class=cp>)]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>extern</span><span class=w> </span><span class=s>&#34;C&#34;</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>fn</span> <span class=nf>sin</span><span class=p>(</span><span class=n>x</span>: <span class=kt>f64</span><span class=p>)</span><span class=w> </span>-&gt; <span class=kt>f64</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=cp>#[no_mangle]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>count_js_import</span><span class=p>(</span><span class=n>n</span>: <span class=kt>f64</span><span class=p>,</span><span class=w> </span><span class=n>x</span>: <span class=kt>f64</span><span class=p>)</span><span class=w> </span>-&gt; <span class=kt>i32</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>count</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>i</span>: <span class=kt>f64</span> <span class=o>=</span><span class=w> </span><span class=mf>0.0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>while</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=n>n</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>if</span><span class=w> </span><span class=k>unsafe</span><span class=w> </span><span class=p>{</span><span class=w> </span><span class=n>sin</span><span class=p>(</span><span class=n>i</span><span class=p>)</span><span class=w> </span><span class=p>}</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=n>x</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>count</span><span class=w> </span><span class=o>+=</span><span class=w> </span><span class=mi>1</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>i</span><span class=w> </span><span class=o>+=</span><span class=w> </span><span class=mf>1.0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>count</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=cp>#[no_mangle]</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=k>pub</span><span class=w> </span><span class=k>fn</span> <span class=nf>count_rust</span><span class=p>(</span><span class=n>n</span>: <span class=kt>f64</span><span class=p>,</span><span class=w> </span><span class=n>x</span>: <span class=kt>f64</span><span class=p>)</span><span class=w> </span>-&gt; <span class=kt>i32</span> <span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>count</span><span class=w> </span><span class=o>=</span><span class=w> </span><span class=mi>0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=kd>let</span><span class=w> </span><span class=k>mut</span><span class=w> </span><span class=n>i</span>: <span class=kt>f64</span> <span class=o>=</span><span class=w> </span><span class=mf>0.0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=k>while</span><span class=w> </span><span class=n>i</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=n>n</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=k>if</span><span class=w> </span><span class=kt>f64</span>::<span class=n>sin</span><span class=p>(</span><span class=n>i</span><span class=p>)</span><span class=w> </span><span class=o>&lt;</span><span class=w> </span><span class=n>x</span><span class=w> </span><span class=p>{</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>            </span><span class=n>count</span><span class=w> </span><span class=o>+=</span><span class=w> </span><span class=mi>1</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>        </span><span class=n>i</span><span class=w> </span><span class=o>+=</span><span class=w> </span><span class=mf>1.0</span><span class=p>;</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=p>}</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w>    </span><span class=n>count</span><span class=w>
+</span></span></span><span class=line><span class=cl><span class=w></span><span class=p>}</span><span class=w>
+</span></span></span></code></pre></div><p>The <code>#[no_mangle]</code> macros just ensure the functions are properly exported. The first lines import a function <code>Math.sin</code> from the host environment.</p><p>To compile it to WebAssembly run:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ cargo build --release --target wasm32-unknown-unknown
+</span></span></code></pre></div><p>The <code>wasm</code> compiled file will be at: <code>target/wasm32-unknown-unknown/release/test_wasm.wasm</code>. Note that wasm files produced by the Rust compiler are normally very large. You may want to remove the garbage running:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ wasm-gc test_wasm.wasm
+</span></span></code></pre></div><p>Get that file in the same folder with the driver program:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;UTF-8&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>http-equiv</span><span class=o>=</span><span class=s>&#34;X-UA-Compatible&#34;</span> <span class=na>content</span><span class=o>=</span><span class=s>&#34;IE=edge&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;viewport&#34;</span> <span class=na>content</span><span class=o>=</span><span class=s>&#34;width=300, initial-scale=1.0&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>title</span><span class=p>&gt;</span>Should I import or should I roll?<span class=p>&lt;/</span><span class=nt>title</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=kd>function</span> <span class=nx>count_numbers</span><span class=p>(</span><span class=nx>n</span><span class=p>,</span> <span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kd>let</span> <span class=nx>count</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>for</span> <span class=p>(</span><span class=kd>let</span> <span class=nx>x</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span> <span class=nx>x</span> <span class=o>&lt;</span> <span class=nx>t</span><span class=p>;</span> <span class=nx>x</span> <span class=o>+=</span> <span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>if</span> <span class=p>(</span><span class=nb>Math</span><span class=p>.</span><span class=nx>sin</span><span class=p>(</span><span class=nx>x</span><span class=p>)</span> <span class=o>&lt;</span> <span class=nx>t</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>                    <span class=nx>count</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=nx>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>N</span> <span class=o>=</span> <span class=mi>100_000_000</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=kr>const</span> <span class=nx>T</span> <span class=o>=</span> <span class=mf>0.223</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nx>WebAssembly</span><span class=p>.</span><span class=nx>instantiateStreaming</span><span class=p>(</span><span class=nx>fetch</span><span class=p>(</span><span class=s2>&#34;main.wasm&#34;</span><span class=p>),</span> <span class=p>{</span> <span class=nb>Math</span> <span class=p>}).</span><span class=nx>then</span><span class=p>((</span><span class=nx>obj</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=kr>const</span> <span class=p>{</span><span class=nx>count_rust_roll</span><span class=p>,</span> <span class=nx>count_js_import</span><span class=p>}</span> <span class=o>=</span> <span class=nx>obj</span><span class=p>.</span><span class=nx>instance</span><span class=p>.</span><span class=nx>exports</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>time</span><span class=p>(</span><span class=s1>&#39;count_numbers&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>count_numbers</span><span class=p>(</span><span class=nx>N</span><span class=p>,</span> <span class=nx>T</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>timeEnd</span><span class=p>(</span><span class=s1>&#39;count_numbers&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>time</span><span class=p>(</span><span class=s1>&#39;count_js_import&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>count_js_import</span><span class=p>(</span><span class=nx>N</span><span class=p>,</span> <span class=nx>T</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>timeEnd</span><span class=p>(</span><span class=s1>&#39;count_js_import&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>time</span><span class=p>(</span><span class=s1>&#39;count_rust_roll&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>count_rust_roll</span><span class=p>(</span><span class=nx>N</span><span class=p>,</span> <span class=nx>T</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>timeEnd</span><span class=p>(</span><span class=s1>&#39;count_rust_roll&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>head</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</span></span></code></pre></div><p>Finally run a local server, for instance:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ python -m http.server
+</span></span></code></pre></div><p>A version of that be found in my <a href=https://www.nhatcher.com/import_or_roll/>github pages</a>.</p><h2 id=some-numbers>Some numbers</h2><p>As we see on the table bellow, rolling our own version of <code>sin</code> (or using one from the standard library) is somewhat slower, so we should definitely import.</p><p>We don&rsquo;t need to make a proper benchmark here to make a decision. Rolling your own implementation of <code>sin</code> is worse than using the browser&rsquo;s implementation:</p><table>
+<thead>
+<tr>
+<th></th><th style=text-align:center>N=100_000</th><th style=text-align:center>N=10_000_000</th><th style=text-align:center>N=100_000_000</th></tr></thead><tbody>
+<tr>
+<td>JavaScript</td><td style=text-align:center>0.048</td><td style=text-align:center>0.173</td><td style=text-align:center>1.374</td></tr><tr>
+<td>C Metal</td><td style=text-align:center>0.020</td><td style=text-align:center>0.130</td><td style=text-align:center>1.100</td></tr><tr>
+<td>Rust Metal</td><td style=text-align:center>0.020</td><td style=text-align:center>0.130</td><td style=text-align:center>1.100</td></tr><tr>
+<td>Wasm Import</td><td style=text-align:center>0.019</td><td style=text-align:center>0.163</td><td style=text-align:center>1.633</td></tr><tr>
+<td>Wasm Roll</td><td style=text-align:center>0.048</td><td style=text-align:center>1.362</td><td style=text-align:center>16.146</td></tr></tbody></table><p>Again, this is not a benchmark, so don&rsquo;t read too much into &ldquo;pure javascript being faster than WebAssembly&rdquo;. This may well true in this particular case because the js engine is able to compile the function into assembly code on the spot (that is a JIT, Jut In Time compiler). That said you might want to run this in Chrome or Firefox or even your phone and see some differences.</p><p>The only takeaway here is that folks targeting WebAssembly in the browser should use the browser&rsquo;s <code>Math.sin</code> and not use your language&rsquo;s implementation.</p><p>Thanks mainly it! Thanks for reading.</p><h2 id=lets-also-do-it-with-c>Let&rsquo;s also do it with C</h2><p>Just because it is fun, let&rsquo;s do the same thing in C.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// clang --target=wasm32 --no-standard-libraries -Wl,--export-all -Wl,--no-entry -o main.wasm main.c
+</span></span></span><span class=line><span class=cl><span class=c1></span>
+</span></span><span class=line><span class=cl><span class=nf>__attribute__</span><span class=p>((</span><span class=nf>import_module</span><span class=p>(</span><span class=s>&#34;Math&#34;</span><span class=p>),</span> <span class=nf>import_name</span><span class=p>(</span><span class=s>&#34;sin&#34;</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=kt>double</span> <span class=nf>Sin</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nf>__attribute__</span><span class=p>((</span><span class=nf>visibility</span><span class=p>(</span><span class=s>&#34;default&#34;</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>count_numbers</span><span class=p>(</span><span class=kt>double</span> <span class=n>N</span><span class=p>,</span> <span class=kt>double</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>double</span> <span class=n>i</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span> <span class=o>+=</span> <span class=mf>1.0</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nf>Sin</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>count</span><span class=o>++</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>count</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></div><p>The two <em>attributes</em> are a way to tell the clang compiler to export the function <code>count_numbers</code> and to import the function <code>Math.sin</code> as <code>Sin</code>. See, for instance (Se, for instance, (<a href=https://clang.llvm.org/docs/AttributeReference.html#import-module>https://clang.llvm.org/docs/AttributeReference.html#import-module</a>))</p><p>To compile it we can use (clang can compile directly to wasm we do not need emscripten):</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl> $ clang --target<span class=o>=</span>wasm32 --no-standard-libraries -Wl,--export-all -Wl,--no-entry -o main.wasm main.c
+</span></span></code></pre></div><p>To run and test the code:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-html data-lang=html><span class=line><span class=cl><span class=cp>&lt;!DOCTYPE html&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>html</span> <span class=na>lang</span><span class=o>=</span><span class=s>&#34;en&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;</span><span class=nt>head</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>charset</span><span class=o>=</span><span class=s>&#34;UTF-8&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>http-equiv</span><span class=o>=</span><span class=s>&#34;X-UA-Compatible&#34;</span> <span class=na>content</span><span class=o>=</span><span class=s>&#34;IE=edge&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>meta</span> <span class=na>name</span><span class=o>=</span><span class=s>&#34;viewport&#34;</span> <span class=na>content</span><span class=o>=</span><span class=s>&#34;width=300, initial-scale=1.0&#34;</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>title</span><span class=p>&gt;</span>Testing WebAssembly<span class=p>&lt;/</span><span class=nt>title</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl>        <span class=nx>WebAssembly</span><span class=p>.</span><span class=nx>instantiateStreaming</span><span class=p>(</span><span class=nx>fetch</span><span class=p>(</span><span class=s2>&#34;main.wasm&#34;</span><span class=p>),</span> <span class=p>{</span> <span class=nb>Math</span> <span class=p>}).</span><span class=nx>then</span><span class=p>((</span><span class=nx>obj</span><span class=p>)</span> <span class=p>=&gt;</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>time</span><span class=p>(</span><span class=s1>&#39;compute&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>log</span><span class=p>(</span><span class=nx>obj</span><span class=p>.</span><span class=nx>instance</span><span class=p>.</span><span class=nx>exports</span><span class=p>.</span><span class=nx>count_numbers</span><span class=p>(</span><span class=mi>100_000_000</span><span class=p>,</span> <span class=mf>0.223</span><span class=p>));</span>
+</span></span><span class=line><span class=cl>            <span class=nx>console</span><span class=p>.</span><span class=nx>timeEnd</span><span class=p>(</span><span class=s1>&#39;compute&#39;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=p>});</span>
+</span></span><span class=line><span class=cl>    <span class=p>&lt;/</span><span class=nt>script</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>head</span><span class=p>&gt;</span>
+</span></span><span class=line><span class=cl><span class=p>&lt;/</span><span class=nt>html</span><span class=p>&gt;</span>
+</span></span></code></pre></div><h2 id=exercises>Exercises</h2><ol>
+<li>Does importing a function from the host environment incur in a performance penalty? The answer is no, you can do a similar test we did with the function <code>sin</code> with the function <code>abs</code>. Go ahead and do that!</li><li>Use emscripten to compile a C file that uses the C implementation for sin, maybe emscripten is smart enough, I have not tried myself!. Maybe you want to use <code>[musl libc](https://musl.libc.org/)</code></li><li>Roll your own implementation of <code>sin</code> using Taylor series or any other approximation you think it is reasonable. What happens?</li></ol></div><div class=post-footer>
+<div class=info>
+<span class=separator><a class=tag href=/tags/webassembly/>WebAssembly</a><a class=tag href=/tags/rust/>Rust</a></span>
+</div></div><div id=fb_comments_container>
+<h2>comments</h2><script src=https://utteranc.es/client.js repo=nhatcher/nhatcher.github.io issue-term=pathname theme=preferred-color-scheme crossorigin=anonymous async></script>
+</div></div></div></div></div><script type=text/javascript src=https://www.nhatcher.com/js/jquery.min.decb4e8fdab5cb7b76ec6470b6fb73d30c7ee8e248d7486f49007f3c525b7acb.js integrity="sha256-3stOj9q1y3t27GRwtvtz0wx+6OJI10hvSQB/PFJbess=" crossorigin=anonymous></script>
+<script type=text/javascript src=https://www.nhatcher.com/js/bundle.min.3ebad6bf39b2e7c2f899d3ed9bc97e8c0c1ead7a1b57472e3387321f673b8077.js integrity="sha256-PrrWvzmy58L4mdPtm8l+jAwerXobV0cuM4cyH2c7gHc=" crossorigin=anonymous></script>
+<script type=text/javascript src=https://www.nhatcher.com/js/medium-zoom.min.e1c6918cbaa90022a5612f0bd71c7bf3be6d036614c5729cebfe14f7b91fa4bc.js integrity="sha256-4caRjLqpACKlYS8L1xx7875tA2YUxXKc6/4U97kfpLw=" crossorigin=anonymous></script>
+</body></html>
