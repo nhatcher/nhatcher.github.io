@@ -321,7 +321,8 @@ The only thing you have to do is to add a couple of `A Record`'s in your advance
 Note that we are adding three `A record`s:
 * *`@` Record* directs the root domain ('example.com') to your IP
 * *`www` Record* directs the subdomain 'www.example.com' to your IP
-* *`app` Record* directs the 'app.example.com' to your IP 
+* *`app` Record* directs the 'app.example.com' to your IP
+* *`p` Record* directs the 'p.example.com' to your IP
 
 We will do that to have our webpage sitting in <https://www.example.com> and our web application sitting in <https://app.example.com>.
 
@@ -332,6 +333,8 @@ You don't need to do this. You can have everything in the root domain <https://e
 On the other hand if you don't have other services or you have other domains for them and you don't need a flashy landing page you can go and use the root domain.
 
 At the end of the day wether you want to have the application sitting in your root domain or a subdomain is your decision.
+
+I added an entrance for `p.example.com`. Here `p` stands for `private` and can be anything. In our case we will serve the django admin page from that subdomain.
 
 You don't need to point all the `A Records` to the same computer. For example your webpage could be host in a different place like [GitHub](https://pages.github.com/). See the documentation bellow about the Caddyfile.
 
@@ -652,7 +655,6 @@ There is a bit of configuration we still need to do. First we are going to use d
 See the [source code](https://github.com/nhatcher/users-template/tree/main/server/settings/settings) to understand the specifics.
 
 
-
 ## The users or accounts app
 
 A Django project revolves around the concept of apps. A Django application is a self-contained unit that encapsulates specific functionality within a Django project. Django apps are designed to be reusable and can be plugged into different projects, which makes them a fundamental building block of Django web development.
@@ -751,23 +753,166 @@ Will run all your tests, run a test coverage and tell you which lines are not ye
 
 This is the important bit, all test need to pass before merging more work into the main branch. This includes not only the Django tests but also the type checker, formatter and linters. I have put all of them in the [run_test.sh](https://github.com/nhatcher/users-template/blob/main/run_tests.sh) executable.
 
+Test should run automatically with every push, either to remote branches or to main. We can do that with [GitHub actions](https://docs.github.com/en/actions/quickstart). You just need to do a `.github/workflows/django.yml` file in your repo with content:
+
+```yaml
+name: Django CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: [3.10.13]
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: Run Tests
+      run: ./run_tests.sh
+```
+Now every time you do a PR the test should run and in the PR GitHub page you should see wether the tests passed or not. With a free GitHub account you can't prevent (lock) the feature branch to be merged if the test do not pass. But you should not live with a main branch with failing tests. If you go to  the repository [Actions](https://github.com/nhatcher/users-template/actions) you should see the list of all the times the test run. You can click on any of them and see the issues and the test coverage.
+
 ## Logs, alerts, notifications and stats
 
 Logs are messages emitted by the application or the operative system that can help us trace back errors or issues that happened through an event or series of events.
 It can be informative, signal a warning or be worrisome errors.
 
 Alerts are messages that we receive in our phones. We probably need to act on them. They signal a house on fire event.
+
 Notifications are also messages that we receive in our movil devices that are just for our information, for example new accounts created.
 
-Some logs may be updated to alerts or notifications depending on their importance.
+Some logs may be upgraded to alerts or notifications depending on their importance.
 
 Stats are numbers of certain occurrences that we feel are important. Like number of accounts created or the number of times people logged in into the system.
 
-## Deployment if the repository is private
+You really need logs in place.
 
-We will need to use [Deploy keys](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/managing-deploy-keys#deploy-keys)
+To inspect caddy logs:
+```bash
+root@remote:~# tail /etc/log/caddy/access.log 
+```
+A nice way to inspect those logs is [jq](https://jqlang.github.io/jq/):
 
-## Refinements:
+## Deploying to production
+
+Deployment should be extremely simple:
+```bash
+root@remote:~# deploy.sh
+```
+
+This should:
+
+1. Stop the Gunicorn daemon
+2. Get all the code from the remote repository as the underprivileged django user
+3. Create the virtual environment and install all the production dependencies
+4. Apply the migrations to the database.
+5. Collect the static files that Django needs and copy them to the static folder
+6. Copy all files that need to be copied
+
+But deployment is a dangerous operation and involves downtime. At the beginning of the development of your application you might not have users and this might not be an issue. But as soon as you are having customers you should plan deployments. Also since you are migrating the database in place you should do a backup and test it works before the deployment. You can spin a new droplet, copy the database, make sure it works and then do the deployment in your production machine.
+
+One way of doing this would be to get a new subdomain for the new droplet. For example `test` or `staging`, you could get a new random name using the utility `util/generate_subdomain.py`:
+```bash
+jsmith@local:~/util$ python generate_subdomain.py
+tools-steals
+```
+
+Then add this name to your DNS A records. Once you have done that, prepare your new machine by `./install.sh` and deploy the same code that is deployed at your production VPS.
+
+```bash
+root@tools-steals:~/ deploy.sh commit-id
+```
+
+Make a [dump of the database](https://www.postgresql.org/docs/current/backup-dump.html) in the 'production' machine:
+```bash
+root@remote:~# su - postgres -c 'pg_dump <database-name> > database_backup.sql'
+root@remote:~# cp ~postgres/database_backup.sql .
+```
+Copy that file to the new 'staging' machine:
+
+```bash
+jsmith@local:~/$ scp root@example.com:~/database_backup root@tools-steals.example.com:~/
+```
+
+Restore the dump in the new machine:
+```bash
+root@tools-steals:~# su - postgres -c "psql -c 'DROP DATABASE <database-name>'"
+root@tools-steals:~# su - postgres -c "psql -c 'CREATE DATABASE eqn_app'"
+root@tools-steals:~# su - postgres -c 'psql eqn_app < database_backup.sql'
+```
+
+Now do the deployment in the new machine:
+
+```bash
+root@tools-steals:~# deploy.sh
+```
+
+Check that everything is ok. This involves manual testing, logging into the new machine, checking the users are there and test if it makes sense that the migrations worked out the way you wanted.
+
+Once you are happy with the result you are free to go to the production machine and do the deployment there:
+```bash
+root@remote:~# deploy.sh
+```
+
+You can now do a smoke test of the production machine and eventually destroy the staging 'tools-steals' machine.
+It will cost you just a few cents if the whole process lasted for an hour or two.
+
+## Troubleshooting
+
+I you can ping the server ssh into the server the OS is up and running.
+
+Can I check deployed version? <https://app.example.com/deployed_commit_id.txt> then caddy is up and running.
+You can check the gunicorn logs:
+```bash
+root@remote:~# journalctl -u gunicorn -t
+```
+Then you can check the application logs:
+```bash
+root@remote:~# tail -f /var/log/django/django.log
+```
+
+
+
+
+## Extra A: A Virtual Personal Network
+
+These days is extremely easy to get all your computers, including your phone and your laptop on the same private network. Today the best tool out there is [tailscale](https://tailscale.com/). It's free and foolproof.
+I wil not go in this blog post into installing or the benefits of a VPN but I will just mention one.
+
+Because we have the django admin site in a subdomain <https://p.example.com> we could make it only accessible from the VPN. The right way of doing that is with something called a DNS challenge. Regrettably the set of tools that we are using (Namecheap+Caddy) make this a tad more complicated than with others (GoDaddy+NGINX). A simple enough way of doing it would be:
+1. Expose <https://p.exampe.com> and get the certificate as usual
+2. Change the A record in your DNS provider of <https://p.example.com> to point to the private IP in the VPN
+That's it for three months your certificate is valid and <https://p.example.com> is only accessible from the VPN.
+
+## Extra B: Infrastructure defined by code
+
+So far every time we need a new server there are a few manual steps we need to take. Changing some DNS A records, creating a new droplet with the correct ssh keys, rsync the deployment scripts, fill out the server_config file, etc. Although this works it eventually will get error prone. The infrastructure will start growing, maybe new machines added, load balancers, separate managed databases, ...
+
+The solution is to do for the infrastructure the same as we did for the rest of the system define it by code. Most host providers like DigitalOcean feature an API that allow users provision machines and services via code. Name registrars like Namecheap also provide an API to control them programmatically. This basically means we can do a full installation of the whole system just running one script.
+
+We can even go one step further. Our installation and deployment scripts are _imperative_ they say whats needs to be done in order to get to the sate that we want. Modern infrastructure is defined _declaratively_. Instead of having a series of scripts we have now a _yaml_ file that describes what we want to have. This is the basis for [terraform](https://www.terraform.io/) 
+
+Dawn E. Collett has given an excellent [talk](https://www.youtube.com/watch?v=zrORVZ9wJSE&ab_channel=TechWorldwithNana) about how to use terraform for a small [open source](https://github.com/lisushka/osc-terraform) project on a shoestring. 
+
+
+## Even more extras!
+
 
 1. Cron jobs:
 * Clean database
@@ -776,25 +921,8 @@ We will need to use [Deploy keys](https://docs.github.com/en/authentication/conn
 
 3. Vaults and secrets. Terraform vault.
 
-4. Staging server(s)
-You might want to have a staging server in <https://staging.example.com>. If you want to be safer you can do it using random subdomains: <https://sleigh_year.g.example.com>. You can copy the data from production. Droplets are cheap for a few hours or days.
-
-5. Creating mock data
-
 When testing the app it is very useful to have the app filled mock data. For that we have a script that fills the database and returns a file with users and passwords.
 
-
-6. What a second, what is deployed again?
-
-Having a visible deployed commit id will save you from trouble.
-
-## Extra A: A VPN with Wireguard
-
-## Extra B: Deployments on tagging
-
-## Extra C: Code defines infrastructure.
-
-Using Terraform and Puppet
-
+4. Deployments on taging
 
 
