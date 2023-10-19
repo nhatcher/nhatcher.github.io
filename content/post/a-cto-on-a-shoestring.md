@@ -7,16 +7,19 @@ Categories: []
 DisableComments: false
 ---
 
-All the code in this blog post is in [github](https://github.com/nhatcher/users-template) and you should have a look at that first and come here only for further assistance.
+Let's create a web application together!
 
-This post was **last updated on Sun, Oct 16, 2023**
+This document is continuously updated.  **Latest revision: October 19, 2023**
+
+All the code is in [github](https://github.com/nhatcher/users-template).
 
 In this blog post you are going to learn how to setup and deploy a simple web application with modern best programming practices and all the bells and whistles you need to grow the app from zero to a few hundred users.
-There might be some things you want to do differently from code in here. You might want to use a different platform to read your logs, you might want to use NGINX instead of caddy, you might want to run your django code with Daphne instead of gunicorn, you might decide GitHub is not good for you, or use a different email provider or host provider or get the domain name from a different name registrar. You will still be able to use this with minimal modifications. Changing Django and python for a different framework or programming language will require more changes but the core of this post will still be useful. Using [Lavarel](https://laravel.com/), [Ruby on Rails](https://rubyonrails.org/) or plain [go](https://go.dev/) should pose no big challenges to the reader.
 
-This should not only be regarded as a tutorial on how to setup and install everything but as a guide on how to build a modern web application. Using the code provided and following this guide might get you up and running in a matter of hours instead of days or even weeks but you should be prepared to do some sleuthing.
+You may find that certain aspects require customization to align with your preferences. You might want to use a different platform to read your logs, opt for NGINX over Caddy, run your Django code with Daphne instead of Gunicorn, decide GitHub is not good for you, or use a different email provider or host provider or get the domain name from a different name registrar. You will still be able to use this with minimal modifications. Changing Django and python for a different framework or programming language will require more changes but the fundamental insights provided in this post will hopefully remain valuable. Using [Lavarel](https://laravel.com/), [Ruby on Rails](https://rubyonrails.org/) or plain [go](https://go.dev/) should pose no big challenges to the reader.
 
-The guide is intended for a small team, maybe just one single person. If your team is larger than 5 people this guide might still work but might fall short in some respects. I am assuming you have almost no cash to dedicate to this project, we are going to do this on a shoestring. With all this in place if you make the project grow from a solo developer and no users to a few hundred users and 5 developer you will very easily upgrade the tools and hardware. I am assuming also you have some background in programming and you are comfortable in a Linux terminal. If you are not you really need a more technical partner that will help you with that. You will also not learn Django or python here although you should be ok if you know just some python and are willing to dedicate some time go go through the Django documentation.
+This should not only be regarded as a tutorial on how to setup and install everything but as a guide on how to build a modern web application. Using the code provided and following this guide might get you up and running in a matter of hours instead of days or even weeks, but you should be prepared to do some sleuthing.
+
+The guide is intended for a small team, maybe just one single person. If your team is larger than five people this guide might still work but might fall short in some respects. I am assuming you have almost no cash to dedicate to this project, we are going to do this on a shoestring. With all this in place if you make the project grow from a solo developer and no users to a few hundred users and 5 developer you will very easily upgrade the tools and hardware. I am assuming also you have some background in programming and you are comfortable in a Linux terminal. If you are not you really need a more technical partner that will help you with that. You will also not learn Django or Python here although you should be ok if you know just some Python and are willing to dedicate some time to go through the [Django documentation](https://docs.djangoproject.com/en/)
 
 Although I am guiding you through the cheapest possible option, as soon as you start getting customers you should consider investing in infrastructure. Maybe you will need a separate database server o a more performant server or paying for some of the services you are using.
 
@@ -74,20 +77,24 @@ This is a quick survey of the technologies we are using, why I chose them and th
     Other options <https://www.migadu.com/> for 20€ a year or [prontonmail](https://proton.me/) for 50€/year for 10 email addresses. Fastmail has a similar price to Google, [tutanota](https://tutanota.com/pricing) has also a very generous offer and might even be for free if you are doing [open source](https://tutanota.com/discount).
     A completely different way would be to self host. I don't recommend that, although you will have infinite amount of email addresses and will be in control of everything you might find that many of your emails are not being delivered correctly. As of today email is a sort of oligopoly and you might end up in an unlucky situation in which all your outgoing email is being blocked. There are people with notable success here, so it is definitely possible. If you are going down that route consider using [Cloudron](https://www.cloudron.io/) with a DigitalOcean droplet.
 8. __Logs: Sentry.__ Runner up Loggly
+    
     I don't have a ton of experience here. Other two options are [new relic](https://newrelic.com/) and [Loggly](https://www.loggly.com/).
     I chose Sentry for simplicity, it would be very easy to switch to another platform. Your logging platform should be mostly unintrusive.
 9. __Wireframes: [Draw.io](https://www.drawio.com/).__ Runner up Figma
+    
     Although this blog post is not about the frontend, it helps a lot having the wireframes in place. Draw.io is a simple, free, well done tool useful in many contexts. One of the many things I learned from Stephen Grider.
     Figma can also be used for wireframing. And also lots of other possibilities.
 10. __GitHub__. No runner up
-    There are alternatives out there like [GitLab](https://about.gitlab.com/), but I haven't used them
+    
+    There are alternatives out there like [GitLab](https://about.gitlab.com/), but I haven't used them. We are also using GitHub Actions as our test runner. Other options include [CircleCI](https://circleci.com/).
 11. __Ubuntu Linux__. No runner up
+    
     We will be deploying in an Ubuntu VPS. Any debian based system should work in a very similar way. The whole thing will work in any Linux system but you might have to change a few commands.
 
 
 ## Getting a domain name (~10€ a year)
 
-You can buy a domain name from places like [namecheap](https://www.namecheap.com/), but there are many other vendors. Just make sure that they only sell you the domain name and nothing else. It should cost you around 10€ a year. But you can find really cheap domain names for a year you can get for your testing. Beware of not renewing them, those cost go up and add!
+You can buy a domain name from places like [Namecheap](https://www.namecheap.com/), but there are many other vendors. Just make sure that they only sell you the domain name and nothing else. It should cost you around 10€ a year. But you can find really cheap domain names for a year you can get for your testing. Beware of not renewing them, those cost go up and add!
 
 ## Getting an email account
 
@@ -95,7 +102,7 @@ There are several paid vendors like Google. But we will use [Zoho](https://www.z
 
 Zoho has a nice web service and apps for Android and iOS to read and send your email from the phone.
 
-To setup your email, you will need to follow the steps in one of these guides, [namecheap](https://www.namecheap.com/support/knowledgebase/article.aspx/9758/2208/how-to-set-up-zoho-email-for-my-domain/) or [zoho](https://www.zoho.com/mail/help/adminconsole/namecheap.html).
+To setup your email, you will need to follow the steps in one of these guides, [Namecheap](https://www.namecheap.com/support/knowledgebase/article.aspx/9758/2208/how-to-set-up-zoho-email-for-my-domain/) or [Zoho](https://www.zoho.com/mail/help/adminconsole/namecheap.html).
 
 With this done you should be able to send a receive emails with your new fancy email address. You can up to 5 email accounts, for instance `hello@example.com` and `support@example.com` but you can configure zoho to get all emails on `hello@example.com`. You can also now send emails programmatically.
 
@@ -158,14 +165,14 @@ Once you have your own VPS the only important thing is that you have a set of tw
 * `install.sh` that you need to run once when you provision the VPS.
 * `deploy.sh` that you need to run every time you want to update your code.
 
-This section is just an explanation of what [`install.sh`](https://github.com/nhatcher/users-template/blob/main/deployment_scripts/install.sh) does.
+This section is just an explanation of what [`install.sh`](https://github.com/nhatcher/users-template/blob/main/deployment_scripts/install.sh) does. Although I have used a bash script for both the install and deploy scripts, feel free to use something different like Python. A bash script of more than a hundred lines of code is rarely a good idea.
 
 1. Secure the server
 
 Log into the remote server. That is normally done by:
 
 ```
-jsmith@local:~/ $ ssh root@93.184.216.34
+jsmith@local:~/$ ssh root@93.184.216.34
 ```
 Where `93.184.216.34` is just the example IP.
 
@@ -315,13 +322,13 @@ We want your ip to point to your remote computer, this will buy us two things:
 We do this by configuring the DNS records in your DNS host provider. This is not difficult, but I bet you will have some stories to tell if you spend enough time configuring those.
 Normally your domain registrar will provide you with a full featured GUI to config those DNS records in the _zone file_.
 
-The only thing you have to do is to add a couple of `A Record`'s in your advanced DNS settings. If you are using Namecheap will look something like:
-![namecheap config](/images/shoestring/namecheap_config.png "Configuring DNS records")
+The only thing you have to do is to add a couple of _A Record_'s in your advanced DNS settings. If you are using Namecheap will look something like:
+![namecheap config](/images/shoestring/namecheap_a_records.png "Configuring DNS records")
 
-Note that we are adding three `A record`s:
+Note that we are adding four `A record`s:
 * *`@` Record* directs the root domain ('example.com') to your IP
-* *`www` Record* directs the subdomain 'www.example.com' to your IP
 * *`app` Record* directs the 'app.example.com' to your IP
+* *`www` Record* directs the subdomain 'www.example.com' to your IP
 * *`p` Record* directs the 'p.example.com' to your IP
 
 We will do that to have our webpage sitting in <https://www.example.com> and our web application sitting in <https://app.example.com>.
@@ -334,7 +341,7 @@ On the other hand if you don't have other services or you have other domains for
 
 At the end of the day wether you want to have the application sitting in your root domain or a subdomain is your decision.
 
-I added an entrance for `p.example.com`. Here `p` stands for `private` and can be anything. In our case we will serve the django admin page from that subdomain.
+I added an entrance for `p.example.com`. Here `p` stands for `private` but we can use any other name. In our case we will serve the django admin page from that subdomain.
 
 You don't need to point all the `A Records` to the same computer. For example your webpage could be host in a different place like [GitHub](https://pages.github.com/). See the documentation bellow about the Caddyfile.
 
@@ -346,8 +353,8 @@ We will now install a webserver in your VPS capable of serving static webpages a
 First thing you should do is download the latest binary for your computer architecture. You can follow the instructions [in the caddy documentation](https://caddyserver.com/docs/install) but we will install the latest binary here:
 
 ```
-root@remote# wget https://github.com/caddyserver/caddy/releases/download/v2.7.4/caddy_2.7.4_linux_amd64.tar.gz
-root@remote# tar -xf caddy_2.7.4_linux_amd64.tar.gz
+root@remote# wget https://github.com/caddyserver/caddy/releases/download/v2.7.5/caddy_2.7.5_linux_amd64.tar.gz
+root@remote# tar -xf caddy_2.7.5_linux_amd64.tar.gz
 root@remote# cp caddy /opt/caddy/
 root@remote# chmod +x /opt/caddy/caddy
 ```
@@ -808,6 +815,9 @@ To inspect caddy logs:
 root@remote:~# tail /etc/log/caddy/access.log 
 ```
 A nice way to inspect those logs is [jq](https://jqlang.github.io/jq/):
+```bash
+tail -f /var/log/caddy/access.log  | jq .request.uri
+```
 
 ## Deploying to production
 
@@ -873,21 +883,24 @@ root@remote:~# deploy.sh
 You can now do a smoke test of the production machine and eventually destroy the staging 'tools-steals' machine.
 It will cost you just a few cents if the whole process lasted for an hour or two.
 
+## Database backups
+
+At the beginning and while you are developing your application backups might not be up in your list. But as soon as you start having users the most important thing you have is your users data. DigitalOcean does weekly backups of your whole droplet for peanuts.
+The one important thing about the backups is that you need to test they work. Don't just assume they work. Remember once again the most valuable thing you have right now is your customer data. If you don't want to spend cash you can setup a cron job (see later) to make a dump of your database to AWS S3 (free for a year) or any other place. As you grow, you probably will want a managed database anyway. That is a separate machine that you will have to pay for but the provider will take care of things like daily backups. When and how you start doing backups is completely up to you. But you will need to have tested database backups in place.
+
 ## Troubleshooting
 
 I you can ping the server ssh into the server the OS is up and running.
 
-Can I check deployed version? <https://app.example.com/deployed_commit_id.txt> then caddy is up and running.
+Can I check deployed version? <https://app.example.com/deployed_commit_id.txt> then Caddy is up and running.
 You can check the gunicorn logs:
 ```bash
-root@remote:~# journalctl -u gunicorn -t
+root@remote:~# journalctl -u gunicorn -f
 ```
 Then you can check the application logs:
 ```bash
 root@remote:~# tail -f /var/log/django/django.log
 ```
-
-
 
 
 ## Extra A: A Virtual Personal Network
@@ -904,7 +917,7 @@ That's it for three months your certificate is valid and <https://p.example.com>
 
 So far every time we need a new server there are a few manual steps we need to take. Changing some DNS A records, creating a new droplet with the correct ssh keys, rsync the deployment scripts, fill out the server_config file, etc. Although this works it eventually will get error prone. The infrastructure will start growing, maybe new machines added, load balancers, separate managed databases, ...
 
-The solution is to do for the infrastructure the same as we did for the rest of the system define it by code. Most host providers like DigitalOcean feature an API that allow users provision machines and services via code. Name registrars like Namecheap also provide an API to control them programmatically. This basically means we can do a full installation of the whole system just running one script.
+The solution is to do for the infrastructure the same as we did for the rest of the system define it by code. Most host providers like DigitalOcean feature an API that allow users provision machines and services via code. Name registrars like Namecheap also provide an API to control them programmatically. And you can also control your DNS records from DigitalOcean and leave your Name registrar out of the equation.  This basically means we can do a full installation of the whole system just running one script.
 
 We can even go one step further. Our installation and deployment scripts are _imperative_ they say whats needs to be done in order to get to the sate that we want. Modern infrastructure is defined _declaratively_. Instead of having a series of scripts we have now a _yaml_ file that describes what we want to have. This is the basis for [terraform](https://www.terraform.io/) 
 
@@ -913,16 +926,35 @@ Dawn E. Collett has given an excellent [talk](https://www.youtube.com/watch?v=zr
 
 ## Even more extras!
 
+There are infinity many nice things you could be adding to the project to make your life (and your collaborators') easier.
 
-1. Cron jobs:
-* Clean database
+1. Cron jobs
+
+    A good example is database cleaning. You might want to run a job every day/week/hour to remove entries in the database that are no longer relevant. For example entries for users whose link has expired.
 
 2. unattended updates. Caddy updates
 
+    If you machine is running long enough it will need updates. At least you need the security updates. Updates like `apt update && apt upgrade` are potentially dangerous because they might install updates that break existing software. So you probably want to do those during a normal deployment. DigitalOcean, as usual, has a good [blog post](https://www.digitalocean.com/community/tutorials/how-to-keep-ubuntu-22-04-servers-updated) on how to do that. We did install Caddy from a link, so it is not managed, it will not be automatically upgraded even if there are security patches. But since it is a single binary you can just download the latest version. At the time of writing there is an experimental feature `caddy upgrade` that works pretty well.
+
 3. Vaults and secrets. Terraform vault.
 
-When testing the app it is very useful to have the app filled mock data. For that we have a script that fills the database and returns a file with users and passwords.
+    A critical part of all this setting is the mysterious file `server_config.ini` with all the secrets and passwords. If you copy that file to the wrong place you will expose all your secrets. This happens more often than it should. The modern way of dealing with this is using a third party like [HashiCorp Vault Project](https://www.vaultproject.io/). It's free.
 
-4. Deployments on taging
+4. Mock data
+
+    When testing the app it is very useful to have the app filled mock data. For that we have a script that fills the database and returns a file with users and passwords.
+    We will probably talk about this when we talk about the frontend.
+
+5. Deployments on tagging (push deployments)
+
+    I like ssh-ing into our server and running `deploy.sh`. It's simple and you can see the logs on your terminal. And it's probably the best solution if it is just you. If you have a couple of collaborators then is probably a good idea to have a better way of doing deployments. One idea is to use deployments every time there is a push to the main branch. There are many ways of achieving that.
+
+6. You name it!
+
+## Where to go next and departing words
+
+Well, really. Once everything is in place it's time to set the frontend and start codding! If you went through all the steps your are basically done with the scaffolding's boilerplate.
+
+In a following blog post, hopefully way shorter than this, I will show you how to get started with React+TypeScript+Storybook and how all three can be easily integrated in the present infrastructure.
 
 
