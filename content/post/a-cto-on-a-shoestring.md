@@ -909,8 +909,10 @@ These days is extremely easy to get all your computers, including your phone and
 I wil not go in this blog post into installing or the benefits of a VPN but I will just mention one.
 
 Because we have the django admin site in a subdomain <https://p.example.com> we could make it only accessible from the VPN. The right way of doing that is with something called a DNS challenge. Regrettably the set of tools that we are using (Namecheap+Caddy) make this a tad more complicated than with others (GoDaddy+NGINX). A simple enough way of doing it would be:
-1. Expose <https://p.exampe.com> and get the certificate as usual
-2. Change the A record in your DNS provider of <https://p.example.com> to point to the private IP in the VPN
+
+1. Expose <https://p.exampe.com> and let Caddy get the certificate as usual
+2. Change the A record in your DNS provider of <https://p.example.com> to point to the private IP in the VPN.
+
 That's it for three months your certificate is valid and <https://p.example.com> is only accessible from the VPN.
 
 ## Extra B: Infrastructure defined by code
