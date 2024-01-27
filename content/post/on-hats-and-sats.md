@@ -6,7 +6,7 @@ Description: ""
 Tags: []
 Categories: []
 DisableComments: false
-draft: true
+draft: false
 ---
 # Introduction
 
@@ -281,15 +281,45 @@ You can play in the [app](https://www.nhatcher.com/hats/) with Hats, anti-Hats, 
 
 # The spectre
 
-Here is the thing, the Hat, or the Turtle by themselves do not tile the whole plane. you also need the anti-Hat or the anti-Turtle. Some people felt that that is not really a solution to the [einstein problem](https://en.wikipedia.org/wiki/Einstein_problem)
+Here is where things get a little bit more involved, the Hat, or the Turtle by themselves do not tile the whole plane. you also need the anti-Hat or the anti-Turtle. Some people felt that that is not really a solution to the [einstein problem](https://en.wikipedia.org/wiki/Einstein_problem).
+
+The authors of the Hat realized in a [subsequent paper](https://arxiv.org/abs/2305.17743) that one member of the family, the `Title(1, 1)` does tile the whole plane in an aperiodic way without the need of an `anti-Tile(1, 1)`. The tile, and it's variations were christened the Spectre (technically they call it Tile(1, 1) and call Spectres some variations of it, for us Tile(1, 1) will be the Spectre.):
+
+![the spectre](/images/hats/spectre.png "The Spectre")
+
+The Spectre, however, does not share the nice properties of it's siblings the Hat and the Turtle:
+
+* It does not live in an hexagonal grid
+* It is not made out of kites (It is actually not a polyform)
+
+We can't really apply a SAT solver directly to this tile. The great insight of the exceptional team is [Theorem 3.1 in the paper](https://arxiv.org/abs/2305.17743):
+
+**Theorem 3.1.** (David Smith, Joseph Samuel Myers, Craig S. Kaplan and Chaim Goodman-Strauss)
+
+    There is a bijection between combinatorially equivalent tilings by Tile(1, 1) and
+    by the set {hat, turtle}, such that a Tile(1, 1) tiling has a translation as a symmetry if and only
+    if the corresponding hat-turtle tiling has a corresponding translation, and the Tile(1, 1) tiling
+    includes a reflected tile if and only if the hat-turtle tiling does.
+
+If you are not mathematically oriented don't run just yet. This is a fairly easy to understand statement once we distill it into common English. If I start with a Hat and change the length of it's sides until they are all the same I will the Spectre. The inverse transformation, that is starting with the Tile(1, 1) you can change the length of some of the sides and get either a Hat, an anti-Hat, a Turtle or an anti-Turtle. That's all that theorem is saying. The only tricky bit is to know what sides to change. Note that the tiles have edges that are parallel in pairs. The team called some even and some odd depending on the initial rotation of the spectre, then change the even and odd lengths differently.
+
+![paper](/images/hats/paper.png "Deformations of hats and turtles")
+(from "A chiral aperiodic monotile")
+
+There is not better way to see that than through direct manipulation on the [app](https://www.nhatcher.com/hats/)
+
+If you start with a [tessellation](https://en.wikipedia.org/wiki/Tessellation) of Hats and Turtles alone (no anti-Hats and no anti-Turtles) and you change the side of the edges to be the same you will end up with only Spectres (and no anti-Spectres!). That's the Einstein, that is the monotile. They got it!
+
+They went even a little bit further. It turns out that the Spectre and the anti-Spectre also tile the plane but they can do it in a periodic way. Although I won't go into the details here, modifying the shape of the sides in a symmetrical way will get you shapes that tile the plane only in non periodic ways and you can't use the anti-Shape.
 
 
 # References
 [quanta magazine](https://www.quantamagazine.org/math-that-goes-on-forever-but-never-repeats-20230523/)
 
 
-Original source:
+Original sources:
 [An aperiodic monotile](https://cs.uwaterloo.ca/~csk/hat/)
+[A chiral aperiodic monotile](https://arxiv.org/abs/2305.17743)
 
 
 [borealis tutorial](https://www.borealisai.com/research-blogs/tutorial-9-sat-solvers-i-introduction-and-applications/)
