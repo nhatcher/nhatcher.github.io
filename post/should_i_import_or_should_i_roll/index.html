@@ -1,5 +1,5 @@
 <!doctype html><html lang=en data-theme><head>
-<title> Nicolás Hatcher | Trigonometric functions in WebAssembly </title><meta charset=utf-8><meta name=generator content="Hugo 0.119.0"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title> Nicolás Hatcher | Trigonometric functions in WebAssembly </title><meta charset=utf-8><meta name=generator content="Hugo 0.103.1"><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name=description content="Software developer by trade, physicist by soul">
 <link rel=stylesheet href=https://www.nhatcher.com/css/style.min.0c643de4008adca329f7a2d616ce308cca99d4ef45e4cca307323e7857910194.css integrity="sha256-DGQ95ACK3KMp96LWFs4wjMqZ1O9F5MyjBzI+eFeRAZQ=" crossorigin=anonymous type=text/css>
 <link rel=stylesheet href=https://www.nhatcher.com/css/markupHighlight.min.f798cbda9aaa38f89eb38be6414bd082cfd71a6780375cbf67b6d2fb2b96491e.css integrity="sha256-95jL2pqqOPies4vmQUvQgs/XGmeAN1y/Z7bS+yuWSR4=" crossorigin=anonymous type=text/css>
@@ -21,7 +21,7 @@
 <h3 title><a href=/>I'm Nicolás Hatcher</a></h3><div class=description>
 <p>Software developer by trade, physicist by soul</p></div></div></div><ul class=social-links>
 <li>
-<a href="https://arxiv.org/search/?searchtype=author&amp;query=Hatcher%2C+N" rel=me aria-label=Publications>
+<a href="https://arxiv.org/search/?searchtype=author&query=Hatcher%2C+N" rel=me aria-label=Publications>
 <i class="fas fa-file-alt fa-2x" aria-hidden=true></i>
 </a>
 </li><li>
@@ -37,7 +37,7 @@
 <i class="fas fa-envelope fa-2x" aria-hidden=true></i>
 </a>
 </li></ul><div class=footer>
-<div class=by_farbox>&copy; Nicolás Hatcher 2023 </div></div></div><div class=main>
+<div class=by_farbox>&copy; Nicolás Hatcher 2024 </div></div></div><div class=main>
 <div class="page-top .">
 <a role=button class=navbar-burger data-target=navMenu aria-label=menu aria-expanded=false>
 <span aria-hidden=true></span>
@@ -77,7 +77,7 @@
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>count_numbers</span><span class=p>(</span><span class=kt>double</span> <span class=n>N</span><span class=p>,</span> <span class=kt>double</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>double</span> <span class=n>i</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span> <span class=o>+=</span> <span class=mf>1.0</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nf>sin</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>sin</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=n>count</span><span class=o>++</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
@@ -86,8 +86,8 @@
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl>
 </span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=nf>count_numbers</span><span class=p>(</span><span class=mf>100000000.0</span><span class=p>,</span> <span class=mf>0.223</span><span class=p>);</span>
-</span></span><span class=line><span class=cl>    <span class=nf>printf</span><span class=p>(</span><span class=s>&#34;%i&#34;</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=n>count_numbers</span><span class=p>(</span><span class=mf>100000000.0</span><span class=p>,</span> <span class=mf>0.223</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s>&#34;%i&#34;</span><span class=p>,</span> <span class=n>count</span><span class=p>);</span>
 </span></span><span class=line><span class=cl><span class=p>}</span>
 </span></span></code></pre></div><p>Now let&rsquo;s run this in WebAssembly. Let&rsquo;s use Rust first. Create a project like:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-bash data-lang=bash><span class=line><span class=cl>$ cargo new --lib test_wasm
 </span></span></code></pre></div><p>Modify <code>cargo.toml</code> to contain the <code>crate-type = ["cdylib"]</code> lib:</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-toml data-lang=toml><span class=line><span class=cl><span class=p>[</span><span class=nx>package</span><span class=p>]</span>
@@ -181,14 +181,14 @@
 <td>Wasm Import</td><td style=text-align:center>0.019</td><td style=text-align:center>0.163</td><td style=text-align:center>1.633</td></tr><tr>
 <td>Wasm Roll</td><td style=text-align:center>0.048</td><td style=text-align:center>1.362</td><td style=text-align:center>16.146</td></tr></tbody></table><p>Again, this is not a benchmark, so don&rsquo;t read too much into &ldquo;pure javascript being faster than WebAssembly&rdquo;. This may well true in this particular case because the js engine is able to compile the function into assembly code on the spot (that is a JIT, Jut In Time compiler). That said you might want to run this in Chrome or Firefox or even your phone and see some differences.</p><p>The only takeaway here is that folks targeting WebAssembly in the browser should use the browser&rsquo;s <code>Math.sin</code> and not use your language&rsquo;s implementation.</p><p>Thanks mainly it! Thanks for reading.</p><h2 id=lets-also-do-it-with-c>Let&rsquo;s also do it with C</h2><p>Just because it is fun, let&rsquo;s do the same thing in C.</p><div class=highlight><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=c1>// clang --target=wasm32 --no-standard-libraries -Wl,--export-all -Wl,--no-entry -o main.wasm main.c
 </span></span></span><span class=line><span class=cl><span class=c1></span>
-</span></span><span class=line><span class=cl><span class=nf>__attribute__</span><span class=p>((</span><span class=nf>import_module</span><span class=p>(</span><span class=s>&#34;Math&#34;</span><span class=p>),</span> <span class=nf>import_name</span><span class=p>(</span><span class=s>&#34;sin&#34;</span><span class=p>)))</span>
-</span></span><span class=line><span class=cl><span class=kt>double</span> <span class=nf>Sin</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=n>__attribute__</span><span class=p>((</span><span class=n>import_module</span><span class=p>(</span><span class=s>&#34;Math&#34;</span><span class=p>),</span> <span class=n>import_name</span><span class=p>(</span><span class=s>&#34;sin&#34;</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=kt>double</span> <span class=n>Sin</span><span class=p>(</span><span class=kt>double</span> <span class=n>x</span><span class=p>);</span>
 </span></span><span class=line><span class=cl>
-</span></span><span class=line><span class=cl><span class=nf>__attribute__</span><span class=p>((</span><span class=nf>visibility</span><span class=p>(</span><span class=s>&#34;default&#34;</span><span class=p>)))</span>
-</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>count_numbers</span><span class=p>(</span><span class=kt>double</span> <span class=n>N</span><span class=p>,</span> <span class=kt>double</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl><span class=n>__attribute__</span><span class=p>((</span><span class=n>visibility</span><span class=p>(</span><span class=s>&#34;default&#34;</span><span class=p>)))</span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=n>count_numbers</span><span class=p>(</span><span class=kt>double</span> <span class=n>N</span><span class=p>,</span> <span class=kt>double</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=n>count</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>    <span class=k>for</span> <span class=p>(</span><span class=kt>double</span> <span class=n>i</span> <span class=o>=</span> <span class=mf>0.0</span><span class=p>;</span> <span class=n>i</span> <span class=o>&lt;</span> <span class=n>N</span><span class=p>;</span> <span class=n>i</span> <span class=o>+=</span> <span class=mf>1.0</span><span class=p>)</span> <span class=p>{</span>
-</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=nf>Sin</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>Sin</span><span class=p>(</span><span class=n>i</span><span class=p>)</span> <span class=o>&lt;</span> <span class=n>T</span><span class=p>)</span> <span class=p>{</span>
 </span></span><span class=line><span class=cl>            <span class=n>count</span><span class=o>++</span><span class=p>;</span>
 </span></span><span class=line><span class=cl>        <span class=p>}</span>
 </span></span><span class=line><span class=cl>    <span class=p>}</span>
@@ -217,7 +217,7 @@
 <span class=separator><a class=tag href=/tags/webassembly/>WebAssembly</a><a class=tag href=/tags/rust/>Rust</a></span>
 </div></div><div id=fb_comments_container>
 <h2>comments</h2><script src=https://utteranc.es/client.js repo=nhatcher/nhatcher.github.io issue-term=pathname theme=preferred-color-scheme crossorigin=anonymous async></script>
-</div></div></div></div></div><script type=text/javascript src=https://www.nhatcher.com/js/jquery.min.e80d7e6008943348b2c88cd12f10e546083ff6a88f06b4afac7151b78886417e.js integrity="sha256-6A1+YAiUM0iyyIzRLxDlRgg/9qiPBrSvrHFRt4iGQX4=" crossorigin=anonymous></script>
+</div></div></div></div></div><script type=text/javascript src=https://www.nhatcher.com/js/jquery.min.decb4e8fdab5cb7b76ec6470b6fb73d30c7ee8e248d7486f49007f3c525b7acb.js integrity="sha256-3stOj9q1y3t27GRwtvtz0wx+6OJI10hvSQB/PFJbess=" crossorigin=anonymous></script>
 <script type=text/javascript src=https://www.nhatcher.com/js/bundle.min.3ebad6bf39b2e7c2f899d3ed9bc97e8c0c1ead7a1b57472e3387321f673b8077.js integrity="sha256-PrrWvzmy58L4mdPtm8l+jAwerXobV0cuM4cyH2c7gHc=" crossorigin=anonymous></script>
 <script type=text/javascript src=https://www.nhatcher.com/js/medium-zoom.min.e1c6918cbaa90022a5612f0bd71c7bf3be6d036614c5729cebfe14f7b91fa4bc.js integrity="sha256-4caRjLqpACKlYS8L1xx7875tA2YUxXKc6/4U97kfpLw=" crossorigin=anonymous></script>
 </body></html>
