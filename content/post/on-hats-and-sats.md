@@ -61,7 +61,7 @@ In this blog post I will write a bit about these new tilings of the plane and ho
 
 # The SAT solver, an underappreciated tool.
 
-A [SAT solver](https://en.wikipedia.org/wiki/SAT_solver) is a computer program that solves problems in boolean algebra. Say you have a number of variables `a`, `b`, `c` , `d`, ... that can be either **true** or **false**. And then you have se series of statements regarding those variables, like:
+A [SAT solver](https://en.wikipedia.org/wiki/SAT_solver) is a computer program that solves problems in boolean algebra. Say you have a number of variables `a`, `b`, `c` , `d`, ... that can be either **true** or **false**. And then you have a series of statements regarding those variables, like:
 
 * If `a` is **true** then either `b` is **true** or `c` is **false**.
 * If `a` and `b` are both **true** if and only if `d` or `c` is false.
@@ -76,11 +76,11 @@ In _conjunctive normal form_ we have a series of statements, called _clauses_, t
 * a or d
 * not c or d
 
-This is compose of 3 clauses and there are 4 variables (a, b, c , d).
+This is composed of 3 clauses and there are 4 variables (a, b, c , d).
 
 There is a general constructive theorem called the _Tseitin transformation_ that converts any problem in boolean logic to an equivalent in CNF.
 
-As I said, in our case the problem will already de in CNF so we don't need to bother about that. The next step will be to write the problem in a way a Solver can digest it. The standard way is to assign a positive to each variable. For instance
+As I said, in our case the problem will already be in CNF so we don't need to bother about that. The next step will be to write the problem in a way a Solver can digest it. The standard way is to assign a positive to each variable. For instance
 
 * a -> 1
 * b -> 2
@@ -97,7 +97,7 @@ Once you feed the solver an array of arrays it returns an array like [1, -2, 3, 
 
 # A SAT Solver in wasm
 
-There are a million SAT solvers out there but we will use [splr](https://github.com/shnarazk/splr) that we can compile to [WASM](https://github.com/nhatcher/splr-wasm), fits in a 200kB and runs in the [browser](https://www.nhatcher.com/hats/sat.html).
+There are a million SAT solvers out there but we will use [splr](https://github.com/shnarazk/splr) that we can compile to [WASM](https://github.com/nhatcher/splr-wasm), fits into a 200kB file and runs in the [browser](https://www.nhatcher.com/hats/sat.html).
 
 Since we are communicating with wasm instead of passing an array of arrays to the solver we will pass just one array from which you can rebuild the array of arrays:
 
@@ -125,7 +125,7 @@ Once you have the array yo pass it to the splr solver by
 const result = JSON.parse(solveSat(array));
 ```
 
-The `result` will either successful and contain a `data` array or fail and have a `details` message. If it succeeds the `result.data` will be an array with all the numbers of the variables being either positive (meaning they are true) or negative (meaning they are false).
+The `result` will either be successful and contain a `data` array or fail and have a `details` message. If it succeeds the `result.data` will be an array with all the numbers of the variables being either positive (meaning they are true) or negative (meaning they are false).
 
 To sum up if you want to solve a problem in boolean logic you need:
 
