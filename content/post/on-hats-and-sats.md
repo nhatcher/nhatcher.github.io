@@ -19,6 +19,8 @@ Hopefully by the end of the post you will know a fair amount about the hat, the 
 
 Thus, you can see this post either as an exercise in recreational mathematics or as an invitation to SAT solvers.
 
+The post is organized as follows. We first introduce the Hat and state the main result. Then we define what SAT solvers are. In section 3 we describe how we use the solver in wasm and apply it to the problem of solving a Sudoku problem as a warm up exercise in the next section. In section 5 we explain Craig Kaplan's idea of how to use SAT solvers to tile finite regions of the plane and apply it to the Hat. Section 6 introduces the Turtle, a second monotile capable of tiling the plane aperiodically. With all those constructions we build the Spectre, from deformations of Hats and Turtles, a true chiral aperiodic monotile. In the last section we explain how to use the aap deployed at https://www.nhatcher.com/hats/
+
 # Code
 
 You can find all the code discussed here in [GitHub](https://github.com/nhatcher/hats).
@@ -39,7 +41,7 @@ I used the fantastic [dplr](https://github.com/shnarazk/splr) SAT Solver by [Shu
 
 https://github.com/nhatcher/splr-wasm
 
-# The Hat: a shape perplexing the world
+# 1. The Hat: a shape perplexing the world
 
 It is quite unusual that a discovery in mathematics is understandable by the general public, but 2023 witnessed precisely that.
 
@@ -59,9 +61,9 @@ The story of non periodic tilings of the plane is somewhat old and was populariz
 
 In this blog post I will write a bit about these new tilings of the plane and how to cover finite regions using an algorithm that not many people, even people in the industry, know: a SAT solver.
 
-# The SAT solver, an underappreciated tool.
+# 2. The SAT solver, an underappreciated tool.
 
-A [SAT solver](https://en.wikipedia.org/wiki/SAT_solver) is a computer program that solves problems in boolean algebra. Say you have a number of variables `a`, `b`, `c` , `d`, ... that can be either **true** or **false**. And then you have a series of statements regarding those variables, like:
+A [SATisfiability solver](https://en.wikipedia.org/wiki/SAT_solver) is a computer program that solves problems in boolean algebra. Say you have a number of variables `a`, `b`, `c` , `d`, ... that can be either **true** or **false**. And then you have a series of statements regarding those variables, like:
 
 * If `a` is **true** then either `b` is **true** or `c` is **false**.
 * If `a` and `b` are both **true** if and only if `d` or `c` is false.
@@ -95,7 +97,7 @@ As a you can see a negative value means negation of the variable.
 
 Once you feed the solver an array of arrays it returns an array like [1, -2, 3, -4] that means variable 1 and 3 are true and variables 2 and 4 are false. The solver might not find a solution and will return an error or might be able to prove that there is not a valid a solution and will return "UNSAT".
 
-# A SAT Solver in wasm
+# 3. A SAT Solver in wasm
 
 There are a million SAT solvers out there but we will use [splr](https://github.com/shnarazk/splr) that we can compile to [WASM](https://github.com/nhatcher/splr-wasm), fits into a 200kB file and runs in the [browser](https://www.nhatcher.com/hats/sat.html).
 
@@ -136,7 +138,7 @@ To sum up if you want to solve a problem in boolean logic you need:
 * Step 5: Read the output from `result.data`
 * Step 6: Convert each of the indices to variables
 
-# Intermezzo: Using a SAT solver to solve Sudokus
+# 4. Intermezzo: Using a SAT solver to solve Sudokus
 
 Instead of jumping right at the main issue let's use the algorithm to solve a _different_ problem.
 
@@ -206,7 +208,7 @@ Now we need to create all the clauses. For instance, One of the following must b
 
  Now, using a SAT solver to find solutions to sudokus might not be the most performant algorithm. Also the most important bit is how you _generate_ solutions. I enjoyed reading this [piece](https://eli.thegreenplace.net/2022/sudoku-go-and-webassembly/) from the beautiful blog of Eli Bendersky.
  
-# Using a SAT solver to find solutions to the tiling problem
+# 5. Using a SAT solver to find solutions to the tiling problem
 
 In his book "The Art of Computer Programming" in volume 4B Donald Knuth proposes as an (easy) exercise to the reader to find solutions to _tatami tilings_ using a SAT solver.
 
@@ -260,7 +262,7 @@ None of those are difficult to build in terms of our variables but some require 
 
 For a different take on the same problem see [Hastings Greer's post](https://www.hgreer.com/HatTile/) using Microsoft's [z3 theorem prover](https://github.com/Z3Prover/z3).
 
-# It's turtles all the way down
+# 6. It's turtles all the way down
 
 A little after finding the Hat, David Smith found another shape:
 
@@ -279,7 +281,7 @@ This last fact would prove fundamental for our next step.
 You can play in the [app](https://www.nhatcher.com/hats/) with Hats, anti-Hats, Turtles and anti-Turtles, color them differently, and using the SAT solver to create interesting patterns.
 
 
-# The spectre
+# 7. The spectre
 
 Here is where things get a little bit more involved, the Hat, or the Turtle by themselves do not tile the whole plane. you also need the anti-Hat or the anti-Turtle. Some people felt that that is not really a solution to the [einstein problem](https://en.wikipedia.org/wiki/Einstein_problem).
 
@@ -313,7 +315,12 @@ If you start with a [tessellation](https://en.wikipedia.org/wiki/Tessellation) o
 They went even a little bit further. It turns out that the Spectre and the anti-Spectre also tile the plane but they can do it in a periodic way. Although I won't go into the details here, modifying the shape of the sides in a symmetrical way will get you shapes that tile the plane only in non periodic ways and you can't use the anti-Shape.
 
 
-# References
+# 8. Using the Hats app
+
+TODO
+
+
+# 9. References
 [quanta magazine](https://www.quantamagazine.org/math-that-goes-on-forever-but-never-repeats-20230523/)
 
 
