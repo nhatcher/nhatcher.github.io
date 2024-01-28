@@ -27,7 +27,7 @@ There is an app you can play along with at:
 
 https://www.nhatcher.com/hats/
 
-The sudoku solver mentioned bellow is deployed at:
+The sudoku solver mentioned below is deployed at:
 
 https://www.nhatcher.com/hats/sudoku.html
 
@@ -57,7 +57,7 @@ The announcement was made in a [paper](https://arxiv.org/abs/2303.10798) but you
 
 The story of non periodic tilings of the plane is somewhat old and was popularized by Sir Roger Penrose and Martin Gadner in his famous Scientific American column on recreational mathematics. For example Penrose found [two tiles](https://en.wikipedia.org/wiki/Penrose_tiling) (the dart and the kite) that were able to tile the plane in a non periodic way.
 
-In this blog post I will write a bit about these new tilings of the plane and how to cover finite regions using an algorithm that not many people, even please in the industry, know: a SAT solver.
+In this blog post I will write a bit about these new tilings of the plane and how to cover finite regions using an algorithm that not many people, even people in the industry, know: a SAT solver.
 
 # The SAT solver, an underappreciated tool.
 
@@ -68,7 +68,7 @@ A [SAT solver](https://en.wikipedia.org/wiki/SAT_solver) is a computer program t
 
 Solvers can deal with problems with a lot of variables. We will run some experiments in your browser with more than 60 thousand variables and millions of statements.
 
-To be able to use the solver we first need to covert all of our logic statements in what is called a **[conjunctive normal form](https://en.wikipedia.org/wiki/Conjunctive_normal_form)** (CNF). We don't really need to explain much in here because as it happens the statements that we will produce are exactly in this form already.
+To be able to use the solver we first need to convert all of our logic statements in what is called a **[conjunctive normal form](https://en.wikipedia.org/wiki/Conjunctive_normal_form)** (CNF). We don't really need to explain much in here because as it happens the statements that we will produce are exactly in this form already.
 
 In _conjunctive normal form_ we have a series of statements, called _clauses_, that all need to be true (those are the conjunction or AND blocks). Each clause is composed of an OR array of literals (variables and their negations). For example:
 
@@ -119,7 +119,7 @@ Will be converted to:
 const array = [3, 5, -4, 7, 4, 3, -5, 89, 3]
 ```
 
-Once you have the array yo pass it to the splr solver by
+Once you have the array you pass it to the splr solver by
 
 ```javascript
 const result = JSON.parse(solveSat(array));
@@ -152,7 +152,7 @@ Our variables are:
 
 where n in [1, .., 9] and row, column in [0, .., 8]
 
-There are 8x8x8 = 729 variables in total and only 81 of them can be true.
+There are 9x9x9 = 729 variables in total and only 81 of them can be true.
 We need to index each variable, so the previous statement ("There is an n in square (row, column)") is the variable number:
 
 ```
@@ -174,7 +174,7 @@ Now we need to create all the clauses. For instance, One of the following must b
  * number 1 is in (row=0, column=0)
  * number 1 is in (row=0, column=1)
  ...
- * number 1 is in (row=0, column=7)
+ * number 1 is in (row=0, column=8)
  That's one clause. We have 9 of those, one for each number `n`. But of course we have 9 rows. So we have 81 of those.
 
  We can do the same in columns, so we have 81 clauses for columns.
@@ -204,7 +204,7 @@ Now we need to create all the clauses. For instance, One of the following must b
 
  If you want to see the details look at the [source code](https://github.com/nhatcher/hats/blob/main/sudoku.js) to see how you can generate all those in just a few lines of simple code.
 
- Now, using a SAT solver to find solutions to sudokus might not be the most performant algorithm. Also the most important bit is how you _generate_ solutions. I enjoyed reading this [piece](https://eli.thegreenplace.net/2022/sudoku-go-and-webassembly/) form the otherwise beautiful blog of Eli Bendersky.
+ Now, using a SAT solver to find solutions to sudokus might not be the most performant algorithm. Also the most important bit is how you _generate_ solutions. I enjoyed reading this [piece](https://eli.thegreenplace.net/2022/sudoku-go-and-webassembly/) from the beautiful blog of Eli Bendersky.
  
 # Using a SAT solver to find solutions to the tiling problem
 
@@ -212,7 +212,7 @@ In his book "The Art of Computer Programming" in volume 4B Donald Knuth proposes
 
 Besides that, it was Craig Kaplan's paper of the [Heesch Numbers of Unmarked Polyforms](https://arxiv.org/abs/2105.09438) that used SAT solvers extensively to solve tiling problems (see also his [blog post](https://isohedral.ca/heesch-numbers-of-unmarked-polyforms))
 
-Given a shape (like the Hat above) or a plolyomio bellow:
+Given a shape (like the Hat above) or a plolyomio below:
 
 ![Fontaine](/images/hats/Fontaine.svg "Fontaine Polyomio")
 
@@ -222,7 +222,7 @@ The [Heesch number](https://en.wikipedia.org/wiki/Heesch%27s_problem) is the num
 ![Fontaine Heesch](/images/hats/Fontaine_heesch_2.svg "Fountaine Heesch")
 (credit wikipedia)
 
-A [polyomino](https://en.wikipedia.org/wiki/Polyomino) is a shape that is made from squares of the same size (like tetris figures or _tetraminoes_). When you are trying to tile the plane with polyominos the vertices can only be on a square grid. This coverts the tiling problem of a finite part of the plane into a combinatorial problem and from there Kaplan was able to produce a set of clauses for a SAT solver.
+A [polyomino](https://en.wikipedia.org/wiki/Polyomino) is a shape that is made from squares of the same size (like tetris figures or _tetraminoes_). When you are trying to tile the plane with polyominos the vertices can only be on a square grid. This converts the tiling problem of a finite part of the plane into a combinatorial problem and from there Kaplan was able to produce a set of clauses for a SAT solver.
 
 The particular shape that David Smith found, the Hat, is not a polyomino but one of it's vertices must be in the center of an hexagon of a regular hexagonal grid:
 
@@ -270,7 +270,7 @@ This is called "the Turtle" and it is very similar to the Hat. It also tiles the
 
 They soon realized that the Hat and the Turtle are all shapes from the same family.
 
-Take a Hat. There are two kinds of sides, some of length `a`, the short ones and some of length `b=a*√3`. there is one side that is `2xa`, we will count that as two sides of length `a`. Now mentally remove the grid behind it and, while preserving the angles, change the length `a` and `b`. All the tiles that you generate that way will also tile the whole plane. They call those tiles `Tile(a, b)`. In this way `Title(1, √3)` is the Hat and `Tile(√3, 1)` is the Turtle.
+Take a Hat. There are two kinds of sides, some of length `a`, the short ones and some of length `b=a*√3`. there is one side that is `2xa`, we will count that as two sides of length `a`. Now mentally remove the grid behind it and, while preserving the angles, change the length `a` and `b`. All the tiles that you generate that way will also tile the whole plane. They call those tiles `Tile(a, b)`. In this way `Tile(1, √3)` is the Hat and `Tile(√3, 1)` is the Turtle.
 
 Both Hats and Turtles are polykites, but that is not true for other members in the family. What is even more interesting, you can combine Hats and Turtles to tile the plane.
 
@@ -283,7 +283,7 @@ You can play in the [app](https://www.nhatcher.com/hats/) with Hats, anti-Hats, 
 
 Here is where things get a little bit more involved, the Hat, or the Turtle by themselves do not tile the whole plane. you also need the anti-Hat or the anti-Turtle. Some people felt that that is not really a solution to the [einstein problem](https://en.wikipedia.org/wiki/Einstein_problem).
 
-The authors of the Hat realized in a [subsequent paper](https://arxiv.org/abs/2305.17743) that one member of the family, the `Title(1, 1)` does tile the whole plane in an aperiodic way without the need of an `anti-Tile(1, 1)`. The tile, and it's variations were christened the Spectre (technically they call it Tile(1, 1) and call Spectres some variations of it, for us Tile(1, 1) will be the Spectre.):
+The authors of the Hat realized in a [subsequent paper](https://arxiv.org/abs/2305.17743) that one member of the family, the `Tile(1, 1)` does tile the whole plane in an aperiodic way without the need of an `anti-Tile(1, 1)`. The tile, and it's variations were christened the Spectre (technically they call it Tile(1, 1) and call Spectres some variations of it, for us Tile(1, 1) will be the Spectre.):
 
 ![the spectre](/images/hats/spectre.png "The Spectre")
 
@@ -301,7 +301,7 @@ We can't really apply a SAT solver directly to this tile. The great insight of t
     if the corresponding hat-turtle tiling has a corresponding translation, and the Tile(1, 1) tiling
     includes a reflected tile if and only if the hat-turtle tiling does.
 
-If you are not mathematically oriented don't run just yet. This is a fairly easy to understand statement once we distill it into common English. If I start with a Hat and change the length of it's sides until they are all the same I will the Spectre. The inverse transformation, that is starting with the Tile(1, 1) you can change the length of some of the sides and get either a Hat, an anti-Hat, a Turtle or an anti-Turtle. That's all that theorem is saying. The only tricky bit is to know what sides to change. Note that the tiles have edges that are parallel in pairs. The team called some even and some odd depending on the initial rotation of the spectre, then change the even and odd lengths differently.
+If you are not mathematically oriented don't run just yet. This is a fairly easy to understand statement once we distill it into common English. If I start with a Hat and change the length of it's sides until they are all the same I will get the Spectre. The inverse transformation, that is starting with the Tile(1, 1) you can change the length of some of the sides and get either a Hat, an anti-Hat, a Turtle or an anti-Turtle. That's all that theorem is saying. The only tricky bit is to know what sides to change. Note that the tiles have edges that are parallel in pairs. The team called some even and some odd depending on the initial rotation of the spectre, then change the even and odd lengths differently.
 
 ![paper](/images/hats/paper.png "Deformations of hats and turtles")
 (from "A chiral aperiodic monotile")
