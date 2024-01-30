@@ -6,7 +6,6 @@ Description: ""
 Tags: []
 Categories: []
 DisableComments: false
-draft: false
 ---
 # Introduction
 
@@ -285,11 +284,11 @@ You can play in the [app](https://www.nhatcher.com/hats/) with Hats, anti-Hats, 
 
 Here is where things get a little bit more involved, the Hat, or the Turtle by themselves do not tile the whole plane. you also need the anti-Hat or the anti-Turtle. Some people felt that that is not really a solution to the [einstein problem](https://en.wikipedia.org/wiki/Einstein_problem).
 
-The authors of the Hat realized in a [subsequent paper](https://arxiv.org/abs/2305.17743) that one member of the family, the `Tile(1, 1)` does tile the whole plane in an aperiodic way without the need of an `anti-Tile(1, 1)`. The tile, and it's variations were christened the Spectre (technically they call it Tile(1, 1) and call Spectres some variations of it, for us Tile(1, 1) will be the Spectre.):
+The authors of the Hat realized in a [subsequent paper](https://arxiv.org/abs/2305.17743) that one member of the family, the `Tile(1, 1)` does tile the whole plane in an aperiodic way without the need of an `anti-Tile(1, 1)`. The tile, and its variations were christened the Spectre (technically they call it Tile(1, 1) and call Spectres some variations of it, for us Tile(1, 1) will be the Spectre.):
 
 ![the spectre](/images/hats/spectre.png "The Spectre")
 
-The Spectre, however, does not share the nice properties of it's siblings the Hat and the Turtle:
+The Spectre, however, does not share the nice properties of its siblings the Hat and the Turtle:
 
 * It does not live in an hexagonal grid
 * It is not made out of kites (It is actually not a polyform)
