@@ -18,7 +18,7 @@ Hopefully by the end of the post you will know a fair amount about the hat, the 
 
 Thus, you can see this post either as an exercise in recreational mathematics or as an invitation to SAT solvers.
 
-The post is organized as follows. We first introduce the Hat and state the main result. Then we define what SAT solvers are. In section 3 we describe how we use the solver in wasm and apply it to the problem of solving a Sudoku problem as a warm up exercise in the next section. In section 5 we explain Craig Kaplan's idea of how to use SAT solvers to tile finite regions of the plane and apply it to the Hat. Section 6 introduces the Turtle, a second monotile capable of tiling the plane aperiodically. With all those constructions we build the Spectre, from deformations of Hats and Turtles, a true chiral aperiodic monotile. In the last section we explain how to use the aap deployed at https://www.nhatcher.com/hats/
+The post is organized as follows. We first introduce the Hat and state the main result. Then we define what SAT solvers are. In section 3 we describe how we use the solver in wasm and apply it to the problem of solving a Sudoku problem as a warm up exercise in the next section. In section 5 we explain Craig Kaplan's idea of how to use SAT solvers to tile finite regions of the plane and apply it to the Hat. Section 6 introduces the Turtle, a second monotile capable of tiling the plane aperiodically. With all those constructions we build the Spectre, from deformations of Hats and Turtles, a true chiral aperiodic monotile. In the last section we explain how to use the [app](https://www.nhatcher.com/hats/)
 
 # Code
 
@@ -316,7 +316,37 @@ They went even a little bit further. It turns out that the Spectre and the anti-
 
 # 8. Using the Hats app
 
-TODO
+You might be using the app either to follow along the blog post and understand little bits amd pieces here and there.
+
+The app is composed of a toolbar with some minimal options, the full canvas and a status bar with some info on what is selected
+
+## Adding tiles manually
+
+You can add as many tiles manually as you want. If you have a keyboard, click 'A' to add a new tile, 'Space' to cycle through the different types of tiles (Hats, anti-Hats, Turtles and anti-Turtles), 'R' to rotate a shape. You can click on 'Help' to get this and further instructions. There are also 'On Screen Controls' if you don't have a keyboard.
+
+Adding tiles manually is a fun way to try to tile the plane by yourself.
+
+## Tiles menu
+
+In the _tiles_ menu you can select what tiles to use and pick different colors for different orientations of each tile.
+
+## Grid menu
+
+Here you can choose the number of columns in the grid, and wether or not to show the subjacent hexagon grid.
+
+## Solver menu
+
+Once you are happy with a pattern that you have build manually you can use the SAT solver to fill the rest of the available area. If you check "Randomize" the order of the clauses will be randomized before sending them to the solver (As far as I now there is not an option for randomized solutions in this particular solver)
+
+Modern laptops or even phones can solve in a few seconds problems with ~35 columns and two different tiles. A good laptop can solve problems with ~75 columns and the four tiles in an hour or so. This amounts to 5.5 million clauses!
+
+You can use the app to test if a particular pattern can appear in the full tilling. For instance can four Hats:
+
+![four hats](/images/hats/fourhats.png "Four Hats")
+
+appear in a full tiling of the plane. The answer is no :)
+
+
 
 
 # 9. References

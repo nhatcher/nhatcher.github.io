@@ -40,6 +40,7 @@ path { fill: none; stroke: rgb(160,160,160); stroke-width: 1.5; stroke-linejoin:
 .angle { stroke: black; stroke-width: 1.5; fill: none; }
 .blob { stroke: none; fill: black; }
 </style>
+  <rect width="100%" height="100%" fill="white"/>
   <path
      class="tile"
      d="m 48.1,133.00381 h -30 l -15,-25.98076 45,-25.980764 V 29.080762 l 30,0 L 93.1,3.1 l 45,25.980762 0,51.961524 30,0 15,25.980764 -45,25.98076 -45,-25.98076 -15,25.98076 z"
