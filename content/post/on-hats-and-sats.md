@@ -346,7 +346,32 @@ You can use the app to test if a particular pattern can appear in the full tilli
 
 appear in a full tiling of the plane. The answer is no :)
 
+## Spectres
 
+To draw the spectres and other members in the family `Tile(a , b)`. Go to the "Spectres" menu and click the checkbox "Draw Spectres". Remember that spectres and other elements in `Title(a, b)` family do not belong in a grid so there is no straightforward way to draw them. We use a recursive algorithm:
+
+* Start drawing one tile.
+* If at a particular vertex there are other tiles, draw them first
+* Continue until you are done.
+
+That will draw a connected component. If you have several disjoint tiles the algorithm will only draw one. Also if the tiles are in a wrong position the algorithm will produce weird results:
+
+![wrong tiles](/images/hats/wrong_tiles.png "Wrong tiles")
+![wrong spectres](/images/hats/wrong_spectres.png "Wrong spectres")
+
+But if you do everything alright you should find a nice tiling with tiles of your chosen family.
+
+Note that in general you will have up to 4 different kinds of tiles for each tilling. But when you choose spectres you will have only two (the `Tile(1, 1)` and the `anti-Tile(1, 1)`), This is because both the Hat and the Turtle transform into the spectre. If you start tilling with Hats and Turtles (no ani-Hats and no anti-Turtles):
+
+![select hats and turtles](/images/hats/hats-and-turtles.png "Select Hats and Turtles")
+
+![hats and turtles](/images/hats/hats-and-turtles-tiling.png "Hats and Turtles Tiling")
+
+and you transform them to Spectres you will end up with:
+
+![spectres](/images/hats/hats-and-turtles-spectres.png "Spectres")
+
+Note that in this last image, all tiles are the same but with different orientations, there are no mirror images, and the tiling is aperiodic.
 
 
 # 9. References
