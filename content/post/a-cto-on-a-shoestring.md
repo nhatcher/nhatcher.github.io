@@ -352,7 +352,7 @@ We will now install a webserver in your VPS capable of serving static webpages a
 
 First thing you should do is download the latest binary for your computer architecture. You can follow the instructions [in the caddy documentation](https://caddyserver.com/docs/install) but we will install the latest binary here:
 
-```
+```bash
 root@remote# wget https://github.com/caddyserver/caddy/releases/download/v2.7.5/caddy_2.7.5_linux_amd64.tar.gz
 root@remote# tar -xf caddy_2.7.5_linux_amd64.tar.gz
 root@remote# cp caddy /opt/caddy/
@@ -365,13 +365,13 @@ We will follow [caddy](https://caddyserver.com/docs/running).
 
 Add an underprivileged user:
 
-```
+```bash
 root@remote# groupadd --system caddy
 root@remote# useradd --system --gid caddy --create-home --home-dir /var/lib/caddy --shell /usr/sbin/nologin --comment "Caddy web server" caddy 
 ```
 
 Create two directories:
-```
+```bash
 root@remote# mkdir /var/www/api/
 root@remote# mkdir /var/www/website/
 ```
@@ -393,7 +393,7 @@ The app is sitting in the website/app endpoint
 
 Make sure that everything is owned and readable by caddy:
 
-```
+```bash
 root@remote# chmown -R caddy:caddy /var/www/
 ```
 
@@ -418,7 +418,7 @@ app.example.com {
 This is redirecting all traffic from 'example.com' to 'www.example.com'. Anything coming from 'www.example.com' is being served from the directory `/var/www/website/` and 'app.example.com' is being served from `/var/www/app/`. As simple as that. In this case both subdomains are served from the same VPS, but that doesn't need to be the case. <https://www.example.com> could be served form a different machine, maybe done in wordpress or in modern days in webflow or anything else. You could use a static site generator like [Hugo](https://gohugo.io/) or [Zola](https://www.getzola.org/) or build it yourself if you are brave and host it in GitHub or [Neocities](https://neocities.org/). If you are doing that remember to update the DNS record in your name registrar.
 
 Finally run caddy:
-```
+```bash
 root@remote# /opt/caddy/caddy run
 ```
 
@@ -456,7 +456,8 @@ WantedBy=multi-user.target
 Copy the Caddyfile to `/etc/caddy/Caddyfile`.
 
 Then run to reload the system daemons and the caddy daemon
-```
+
+```bash
 root@remote# systemctl daemon-reload
 root@remote# systemctl start caddy.service
 ```
@@ -501,13 +502,15 @@ You can, of course use a different database like MariaDB, MySQL, Oracle, Cockroa
 5. Create an underprivileged django user:
 
 This is the user that will run the 
-```
+
+```bash
 root@remote# groupadd --system django
 root@remote# useradd --system --gid django --create-home --home-dir /var/lib/django --shell /usr/sbin/nologin --comment "Django app runner" django
 ```
 
 If your remote branch is private you will need some _deployment keys_ for the user _django_.
-```
+
+```bash
 root@remote# su - django -s /bin/bash -c 'ssh-keygen -t ed25519 -C "Deployment key" -N "" -f ~/.ssh/id_ed25519'
 ```
 
