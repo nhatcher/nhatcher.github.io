@@ -351,8 +351,7 @@ You don't need to point all the `A Records` to the same computer. For example yo
 We will now install a webserver in your VPS capable of serving static webpages and redirecting traffic. Apache and NGINX are fine options but will be using [caddy](https://caddyserver.com).
 
 First thing you should do is download the latest binary for your computer architecture. You can follow the instructions [in the caddy documentation](https://caddyserver.com/docs/install) but we will install the latest binary here:
-
-```bash
+```bash-session
 root@remote# wget https://github.com/caddyserver/caddy/releases/download/v2.7.5/caddy_2.7.5_linux_amd64.tar.gz
 root@remote# tar -xf caddy_2.7.5_linux_amd64.tar.gz
 root@remote# cp caddy /opt/caddy/
@@ -371,7 +370,7 @@ root@remote# useradd --system --gid caddy --create-home --home-dir /var/lib/cadd
 ```
 
 Create two directories:
-```bash
+```console
 root@remote# mkdir /var/www/api/
 root@remote# mkdir /var/www/website/
 ```
