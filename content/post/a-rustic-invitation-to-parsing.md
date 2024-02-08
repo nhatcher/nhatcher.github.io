@@ -7,8 +7,6 @@ Categories: []
 DisableComments: false
 ---
 
-(A version of this post appeared first in the [EqualTo blog](https://www.equalto.com/blog/a-rustic-invitation-to-parsing))
-
 Here we will show you how to build a simple parser. Keep reading to learn about algorithms, lexers, parsers and a little bit of Rust. And find all the code in our [GitHub repository](https://github.com/nhatcher/sample-desk-calcualtor).
 
 ## Introduction. The theory of parsing

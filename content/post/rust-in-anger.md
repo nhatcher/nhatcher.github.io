@@ -7,8 +7,6 @@ Categories: []
 DisableComments: true
 ---
 
-(A version of this post appeared first in the [EqualTo blog](https://www.equalto.com/blog/rust-in-anger-high-performance-web-applications))
-
 TL,DR: if you'd like to quickly call [Rust](https://www.rust-lang.org/) code from [Python](https://www.python.org), [TypeScript](https://www.typescriptlang.org/) or [Node.js](https://nodejs.org/), fork this [GitHub project](https://github.com/nhatcher/birthday-book-app).
 
 ## Introduction
