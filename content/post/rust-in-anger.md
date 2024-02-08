@@ -11,7 +11,7 @@ TL,DR: if you'd like to quickly call [Rust](https://www.rust-lang.org/) code fro
 
 ## Introduction
 
-We've been using Rust in anger for a couple of years now in some sophisticated SaaS products, such as [EqualTo Sheets](https://sheets.equalto.com), our "spreadsheet as a service" platform for developers. It's been great to leverage a fast, memory-safe, and versatile programming language like Rust in our Python, Rust and Node.js code-bases. Here we've collected our insights so that others can benefit from our experience.
+We've been using Rust in anger for a couple of years now in some sophisticated SaaS products, such as [IronCalc](https://www.ironcalc.com), our "spreadsheet as a service" platform for developers. It's been great to leverage a fast, memory-safe, and versatile programming language like Rust in our Python, Rust and Node.js code-bases. Here we've collected our insights so that others can benefit from our experience.
 
 Accompanying this post is a [GitHub repository](https://github.com/nhatcher/birthday-book-app) with all the relevant code. This serves two purposes: to help you understand what's going on as you read the post, and to give you a quick start with your own project.
 
