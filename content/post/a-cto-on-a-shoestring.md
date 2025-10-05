@@ -35,7 +35,7 @@ A brief note on nomenclature. I will assume that your username is 'jsmith', that
 If you are following in Linux or Mac you will have no issues. If you are following in a Windows machine and are working in the WSL it should be pretty straightforward. Otherwise you might need to tweak some commands for your own environment and OS. When you see a command like:
 
 ```
-root@remote# apt install failban
+root@remote# apt install fail2ban
 ```
 means that you are running this command as root in the remote machine. And the remote folder is not important. Note that you know that it is a root user because the prompt ends with '#' and not with '$'. With this provisions I hope it is clear where are you running what command.
 
